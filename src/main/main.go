@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/KaioMarxDEV/gofinance/src/internal/routes"
+	"github.com/KaioMarxDEV/gofinance/src/routes"
 	"github.com/gofiber/fiber/v2"
 )
 
