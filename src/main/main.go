@@ -3,11 +3,8 @@ package main
 import (
 	"log"
 
-	"github.com/KaioMarxDEV/gofinance/src/routes"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-
-	_ "github.com/lib/pq"
 )
 
 func main() {
@@ -17,7 +14,9 @@ func main() {
 	// enabling CORS for cross platform conections
 	server.Use(cors.New())
 
-	server.Route("/api", routes.MainRouter, "mainRouter")
+	server.Get("/", func(c *fiber.Ctx) error {
+		return c.SendString("Hello from Docker")
+	})
 	// shutting down the server with fatal function
 	// if the instance of the server not run well
 	// also send a log on terminal
