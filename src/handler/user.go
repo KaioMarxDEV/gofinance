@@ -1,0 +1,3 @@
+package handler
+
+// TODO: CREATE ALL HANDLERS/CONTROLLERS FOR THE FLUX FROM ROUTES and make DB queries

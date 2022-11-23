@@ -10,4 +10,6 @@ func SetupRoutes(app *fiber.App) {
 	api := app.Group("/api", logger.New())
 
 	api.Get("/", handler.Hello)
+
+	// TODO:  CREATE ROUTES FOR USERS RESOURCES
 }
