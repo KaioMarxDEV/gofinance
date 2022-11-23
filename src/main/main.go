@@ -8,17 +8,15 @@ import (
 )
 
 func main() {
-	// server instace creation by gofiber docs
-	server := fiber.New()
-
+	// server instace creation by gofiber - docs
 	// enabling CORS for cross platform conections
-	server.Use(cors.New())
+	app := fiber.New()
+	app.Use(cors.New())
 
-	server.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Hello from Docker")
-	})
-	// shutting down the server with fatal function
-	// if the instance of the server not run well
-	// also send a log on terminal
-	log.Fatal(server.Listen(":3000"))
+	// TODO: CREATE DATABASE CONNECTIONC HERE
+
+	// TODO: CALL ROUTER INIT FUNCTION HERE PASSING APP TO IT
+
+	// shutting down the app with fatal function if listening fails
+	log.Fatal(app.Listen(":3000"))
 }
