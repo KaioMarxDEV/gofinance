@@ -6,6 +6,7 @@ import (
 	"strconv"
 
 	"github.com/KaioMarxDEV/gofinance/src/config"
+	"github.com/KaioMarxDEV/gofinance/src/model"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -24,6 +25,6 @@ func ConnectDB() {
 	}
 
 	fmt.Println("Connection opened to Database")
-	DB.AutoMigrate()
+	DB.AutoMigrate(&model.User{})
 	fmt.Println("Auto migration finished")
 }
