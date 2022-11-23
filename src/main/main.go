@@ -3,6 +3,8 @@ package main
 import (
 	"log"
 
+	"github.com/KaioMarxDEV/gofinance/src/database"
+	"github.com/KaioMarxDEV/gofinance/src/routes"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 )
@@ -13,10 +15,9 @@ func main() {
 	app := fiber.New()
 	app.Use(cors.New())
 
-	// TODO: CREATE DATABASE CONNECTIONC HERE
+	database.ConnectDB() // connect to Docker infra using .env values
 
-	// TODO: CALL ROUTER INIT FUNCTION HERE PASSING APP TO IT
-
+	routes.SetupRoutes(app) // give the route concert to routes pkg passing app instance
 	// shutting down the app with fatal function if listening fails
 	log.Fatal(app.Listen(":3000"))
 }
