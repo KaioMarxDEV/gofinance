@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"github.com/KaioMarxDEV/gofinance/src/handler"
+	"github.com/KaioMarxDEV/gofinance/handler"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 )

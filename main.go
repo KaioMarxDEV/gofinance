@@ -3,14 +3,13 @@ package main
 import (
 	"log"
 
-	"github.com/KaioMarxDEV/gofinance/src/database"
-	"github.com/KaioMarxDEV/gofinance/src/routes"
+	"github.com/KaioMarxDEV/gofinance/database"
+	"github.com/KaioMarxDEV/gofinance/routes"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
 func main() {
-	// FIXME: daddy that database is not running on conttainer also your build is broken
 	database.ConnectDB() // connect to Docker infra using .env values
 
 	app := fiber.New()  // server instace creation by gofiber

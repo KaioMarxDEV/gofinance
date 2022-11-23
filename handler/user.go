@@ -1,8 +1,8 @@
 package handler
 
 import (
-	"github.com/KaioMarxDEV/gofinance/src/database"
-	"github.com/KaioMarxDEV/gofinance/src/model"
+	"github.com/KaioMarxDEV/gofinance/database"
+	"github.com/KaioMarxDEV/gofinance/model"
 	"github.com/gofiber/fiber/v2"
 )
 
