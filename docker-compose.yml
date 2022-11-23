@@ -1,30 +1,24 @@
-version: '3.7'
-
+version: '2.12'
 services:
   db:
     image: postgres
-    container_name: database
-    restart: unless-stopped
     ports:
       - 5432:5432
-    environment:
-      - POSTGRES_PASSWORD=docker
-      - POSTGRES_USER=gofinance
     volumes:
-      - pgdata:/data/postgres
-  app:
-    build: .
-    container_name: api
+      - db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=gofinance
+      - POSTGRES_PASSWORD=docker
+  myapp:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
     ports:
       - 3000:3000
     volumes:
-      - .:/app
-    restart: unless-stopped
-    depends_on:
-      - db
+      - .:/go/src/github.com/KaioMarxDEV/gofinance
     links:
       - db
-
 volumes:
-  pgdata:
+  db:
     driver: local

@@ -1,20 +1,14 @@
-FROM golang:1.19 AS build
+FROM golang:1.19
 
-WORKDIR /app
+WORKDIR /go/src/github.com/KaioMarxDEV/gofinance
 
-COPY go.mod go.sum /
+COPY go.mod /go/src/github.com/KaioMarxDEV/gofinance/
+COPY go.mod /go/src/github.com/KaioMarxDEV/gofinance/
 RUN go mod download
 
-COPY . .
-RUN go build ./src/main/main.go
-
-FROM gcr.io/distroless/base-debian10
-
-WORKDIR /root
-
-COPY --from=build /app ./
+COPY . /go/src/github.com/KaioMarxDEV/gofinance/
+RUN go build -o /server
 
 EXPOSE 3000
 
-ENTRYPOINT ["./main"]
-
+CMD [ "/server" ]

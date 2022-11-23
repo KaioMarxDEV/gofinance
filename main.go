@@ -10,6 +10,7 @@ import (
 )
 
 func main() {
+	// FIXME: daddy that database is not running on conttainer also your build is broken
 	database.ConnectDB() // connect to Docker infra using .env values
 
 	app := fiber.New()  // server instace creation by gofiber

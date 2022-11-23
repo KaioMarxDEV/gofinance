@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/KaioMarxDEV/gofinance/src/config"
 	"github.com/KaioMarxDEV/gofinance/src/model"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -13,7 +12,7 @@ import (
 func ConnectDB() {
 	var err error
 
-	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", config.Config("DB_HOST"), config.Config("DB_PORT"), config.Config("DB_USER"), config.Config("DB_PASSWORD"), config.Config("DB_NAME"))
+	dsn := "host=db port=5432 user=gofinance password=docker dbname=postgres sslmode=disable"
 
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
