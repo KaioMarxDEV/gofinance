@@ -10,13 +10,11 @@ RUN go build ./src/main/main.go
 
 FROM gcr.io/distroless/base-debian10
 
-WORKDIR /
+WORKDIR /root
 
-COPY --from=build /main /main
+COPY --from=build /app ./
 
 EXPOSE 3000
 
-USER nonroot:nonroot
-
-ENTRYPOINT ["/main"]
+ENTRYPOINT ["./main"]
 
