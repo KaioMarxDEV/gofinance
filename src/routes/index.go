@@ -11,5 +11,7 @@ func SetupRoutes(app *fiber.App) {
 
 	api.Get("/", handler.Hello)
 
-	// TODO:  CREATE ROUTES FOR USERS RESOURCES
+	// user routes for user related resources on Database and handlers
+	user := api.Group("/user")
+	user.Post("/", handler.CreateUser)
 }
