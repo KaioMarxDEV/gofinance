@@ -13,5 +13,5 @@ func SetupRoutes(app *fiber.App) {
 	// user routes
 	user := api.Group("/user")
 	user.Post("/", handler.CreateUser)
-	user.Get("/:id", handler.GetUserByID)
+	user.Get("/", handler.GetAllUsers)
 }
