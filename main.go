@@ -12,9 +12,9 @@ import (
 
 func main() {
 	// connect to Docker infra using .env values
-	var err error
-	for err != nil {
-		err = database.ConnectDB()
+	connected := false
+	for connected != true {
+		connected = database.ConnectDB()
 	}
 
 	app := fiber.New()  // server instace creation by gofiber

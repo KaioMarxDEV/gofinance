@@ -10,7 +10,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func ConnectDB() error {
+func ConnectDB() bool {
 	var err error
 
 	// Get .env values and format to string connection by gorm format
@@ -27,11 +27,10 @@ func ConnectDB() error {
 
 	if err != nil {
 		log.Panic("Failed to connect to Database")
-		return err
 	}
 
 	fmt.Println("Connection opened to Database")
 	DB.AutoMigrate(&model.User{})
 	fmt.Println("Auto migration finished")
-	return nil
+	return true
 }
