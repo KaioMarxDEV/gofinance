@@ -1,12 +1,12 @@
 FROM golang:1.19
 
-WORKDIR /go/src/github.com/KaioMarxDEV/gofinance
+WORKDIR /gofinance
 
-COPY go.mod /go/src/github.com/KaioMarxDEV/gofinance/
-COPY go.mod /go/src/github.com/KaioMarxDEV/gofinance/
+COPY go.mod /gofinance/
+COPY go.mod /gofinance/
 RUN go mod download
 
-COPY . /go/src/github.com/KaioMarxDEV/gofinance/
+COPY . /gofinance/
 RUN go build -o /server
 
 EXPOSE 3000

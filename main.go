@@ -10,7 +10,11 @@ import (
 )
 
 func main() {
-	database.ConnectDB() // connect to Docker infra using .env values
+	// connect to Docker infra using .env values
+	var err error
+	for err != nil {
+		err = database.ConnectDB()
+	}
 
 	app := fiber.New()  // server instace creation by gofiber
 	app.Use(cors.New()) // enabling CORS for cross platform conections

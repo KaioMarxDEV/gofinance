@@ -1,9 +1,9 @@
-version: '2.12'
+version: '3.8'
 services:
   db:
     image: postgres
     ports:
-      - 5432:5432
+      - "5432:5432"
     volumes:
       - db:/var/lib/postgresql/data
     environment:
@@ -14,11 +14,9 @@ services:
       context: .
       dockerfile: ./Dockerfile
     ports:
-      - 3000:3000
+      - "3000:3000"
     volumes:
-      - .:/go/src/github.com/KaioMarxDEV/gofinance
-    links:
-      - db
+      - .:/gofinance
 volumes:
   db:
     driver: local

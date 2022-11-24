@@ -8,10 +8,9 @@ import (
 
 func SetupRoutes(app *fiber.App) {
 	api := app.Group("/api", logger.New())
-
 	api.Get("/", handler.Hello)
 
-	// user routes for user related resources on Database and handlers
+	// user routes
 	user := api.Group("/user")
 	user.Post("/", handler.CreateUser)
 }
