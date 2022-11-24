@@ -1,10 +1,19 @@
 package handler
 
 import (
+	"fmt"
+
 	"github.com/KaioMarxDEV/gofinance/database"
 	"github.com/KaioMarxDEV/gofinance/model"
 	"github.com/gofiber/fiber/v2"
 )
+
+// Get user info by passing ID
+func GetUserByID(c *fiber.Ctx) error {
+	id := c.Params("id")
+	fmt.Println(id)
+	return nil
+}
 
 // Creates a new user on Database
 func CreateUser(c *fiber.Ctx) error {
@@ -24,7 +33,8 @@ func CreateUser(c *fiber.Ctx) error {
 		})
 	}
 
-	// password hashing and validation
+	// FIXME: you need to build the bcrypt thing to secure the password
+	// password hashing and validation HERE
 
 	if err := db.Create(&user).Error; err != nil {
 		return c.Status(500).JSON(fiber.Map{
