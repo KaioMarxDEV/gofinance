@@ -6,18 +6,19 @@ import (
 	"github.com/google/uuid"
 )
 
-// base sql constraints like the definition of ID algo...UUID in this case.
-// you could also use gorm.Model if you ok with the embedded types that comes with it
+// custom initialization from gorm.Model, we are calling it Base
+// can be used as standard for all structs that need the same default consts like ID as uuid
 type Base struct {
-	ID        uuid.UUID `gorm:"primary_key; unique; type:uuid; column:id; default:uuid_generate_v4()"`
+	ID        uuid.UUID `gorm:"primary_key; unique; type:uuid; default:gen_random_uuid()"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt *time.Time `sql:"index"`
 }
 
+// User object with some rules for SQL schema generated from the "gorm:" tags
 type User struct {
 	Base
-	Username string `gorm:"unique_index;not_null" json:"username"`
-	Email    string `gorm:"unique_index;not_null" json:"email"`
-	Password string `gorm:"not_null" json:"password"`
+	Username string `gorm:"unique_index;not null" json:"username"`
+	Email    string `gorm:"unique_index;not null" json:"email"`
+	Password string `gorm:"not null" json:"password"`
 }
