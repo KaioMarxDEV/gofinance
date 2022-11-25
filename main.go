@@ -10,7 +10,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/recover"
 )
 
-func main() {
+func Init() {
 	// connect to Docker infra using .env values
 	// tries until database docker is ready...this is a work around of Docker
 	// and distributed system issue with "waiting to someone"
@@ -18,6 +18,10 @@ func main() {
 	for connected != true {
 		connected = database.ConnectDB()
 	}
+}
+
+func main() {
+	Init()
 
 	app := fiber.New()  // server instace creation by gofiber
 	app.Use(cors.New()) // enabling CORS for cross platform conections (Frontend)
