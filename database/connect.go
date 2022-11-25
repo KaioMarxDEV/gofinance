@@ -13,24 +13,19 @@ import (
 func ConnectDB() bool {
 	var err error
 
-	// Get .env values and format to string connection by gorm format
-	dsn := fmt.Sprintf(
-		"host=%v port=%v user=%v password=%v dbname=%v sslmode=disable",
-		config.Config("DB_HOST"),
-		config.Config("DB_PORT"),
-		config.Config("DB_USER"),
-		config.Config("DB_PASSWORD"),
-		config.Config("DB_NAME"),
-	)
+	// Get .env by initializer .env values function named "Config"
+	dsn := config.Config("DB_URL")
 
+	// open the connection with database using ORM library named gorm and postgres driver
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
+	// if connection fails panic the system
 	if err != nil {
 		log.Panic("Failed to connect to Database")
 	}
 
 	fmt.Println("Connection opened to Database")
-	DB.AutoMigrate(&model.User{})
+	DB.AutoMigrate(&model.User{}) // migrate the models to database creating tables automatically
 	fmt.Println("Auto migration finished")
 	return true
 }

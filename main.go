@@ -20,11 +20,11 @@ func main() {
 	}
 
 	app := fiber.New()  // server instace creation by gofiber
-	app.Use(cors.New()) // enabling CORS for cross platform conections
+	app.Use(cors.New()) // enabling CORS for cross platform conections (Frontend)
 
 	app.Use(recover.New()) // recover from panic calls at any point of handlers context
 
-	routes.SetupRoutes(app) // give the route concert to routes pkg passing app instance
+	routes.SetupRoutes(app) // initialize routing groups and endpoints
 
 	log.Fatal(app.Listen(":3000")) // shutting down the app with fatal function if listening fails
 }

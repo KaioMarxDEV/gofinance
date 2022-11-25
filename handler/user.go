@@ -4,7 +4,6 @@ import (
 	"github.com/KaioMarxDEV/gofinance/database"
 	"github.com/KaioMarxDEV/gofinance/model"
 	"github.com/gofiber/fiber/v2"
-	"github.com/google/uuid"
 )
 
 func GetAllUsers(c *fiber.Ctx) error {
@@ -14,12 +13,6 @@ func GetAllUsers(c *fiber.Ctx) error {
 
 // Creates a new user on Database
 func CreateUser(c *fiber.Ctx) error {
-	type NewUser struct {
-		ID       uuid.UUID
-		username string
-		email    string
-	}
-
 	db := database.DB
 	user := new(model.User)
 
