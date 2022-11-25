@@ -2,7 +2,10 @@ module github.com/KaioMarxDEV/gofinance
 
 go 1.19
 
-require github.com/gofiber/fiber/v2 v2.39.0
+require (
+	github.com/gofiber/fiber/v2 v2.39.0
+	golang.org/x/crypto v0.0.0-20220722155217-630584e8d5aa
+)
 
 require (
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
@@ -15,7 +18,6 @@ require (
 	github.com/jackc/pgx/v4 v4.17.2 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.4 // indirect
-	golang.org/x/crypto v0.0.0-20220722155217-630584e8d5aa // indirect
 	golang.org/x/text v0.3.7 // indirect
 )
 

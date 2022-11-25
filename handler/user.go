@@ -4,6 +4,7 @@ import (
 	"github.com/KaioMarxDEV/gofinance/database"
 	"github.com/KaioMarxDEV/gofinance/model"
 	"github.com/gofiber/fiber/v2"
+	"golang.org/x/crypto/bcrypt"
 )
 
 // Select all users
@@ -11,6 +12,8 @@ func GetAllUsers(c *fiber.Ctx) error {
 	db := database.DB
 
 	var users []model.User
+
+	// FIXME: we returning a list with all information, PASSWORD SHOULD NOT BE RETURNED
 	err := db.Find(&users).Error
 
 	if err != nil {
@@ -52,12 +55,21 @@ func GetUserByID(c *fiber.Ctx) error {
 	})
 }
 
+// Hashing password method to CreateUser Handler
+func hashPassword(pass string) (string, error) {
+	newPass, err := bcrypt.GenerateFromPassword([]byte(pass), 10)
+
+	return string(newPass), err
+}
+
 // Creates a new user on Database
 func CreateUser(c *fiber.Ctx) error {
+	var err error
 	db := database.DB
 	user := new(model.User)
 
-	if err := c.BodyParser(user); err != nil {
+	// GET INFO FROM BODY AND BIND TO USER VARIABLE
+	if err = c.BodyParser(user); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(ResponseHTTP{
 			Success: false,
 			Message: err.Error(),
@@ -65,6 +77,7 @@ func CreateUser(c *fiber.Ctx) error {
 		})
 	}
 
+	// VALIDATE EMPTY BODY DATA
 	if user.Username == "" || user.Password == "" || user.Email == "" {
 		return c.Status(fiber.StatusBadRequest).JSON(ResponseHTTP{
 			Success: false,
@@ -73,10 +86,20 @@ func CreateUser(c *fiber.Ctx) error {
 		})
 	}
 
-	// TODO:HASHING PASSWORD
+	// ENCRYPTS THE PASSWORD
+	user.Password, err = hashPassword(user.Password)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(ResponseHTTP{
+			Success: false,
+			Message: "Could not hash password",
+			Data:    nil,
+		})
+	}
+
+	// TODO: Verify if the data passed is already registered
 
 	// INSERT QUERY
-	if err := db.Create(&user).Error; err != nil {
+	if err = db.Create(&user).Error; err != nil {
 		return c.Status(fiber.ErrBadRequest.Code).JSON(fiber.Map{
 			"message": fiber.ErrBadRequest.Message,
 		})
