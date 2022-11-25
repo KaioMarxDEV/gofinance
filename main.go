@@ -12,6 +12,8 @@ import (
 
 func main() {
 	// connect to Docker infra using .env values
+	// tries until database docker is ready...this is a work around of Docker
+	// and distributed system issue with "waiting to someone"
 	connected := false
 	for connected != true {
 		connected = database.ConnectDB()
