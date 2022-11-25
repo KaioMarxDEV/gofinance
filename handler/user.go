@@ -14,7 +14,11 @@ func GetAllUsers(c *fiber.Ctx) error {
 	err := db.Find(&users).Error
 
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(err)
+		return c.Status(fiber.StatusInternalServerError).JSON(ResponseHTTP{
+			Success: false,
+			Message: err.Error(),
+			Data:    nil,
+		})
 	}
 
 	return c.Status(fiber.StatusOK).JSON(ResponseHTTP{
@@ -34,7 +38,11 @@ func GetUserByID(c *fiber.Ctx) error {
 	err := db.Table("users").Find(&user, "ID = ?", id).Error
 
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(err)
+		return c.Status(fiber.StatusInternalServerError).JSON(ResponseHTTP{
+			Success: false,
+			Message: err.Error(),
+			Data:    nil,
+		})
 	}
 
 	return c.Status(fiber.StatusOK).JSON(ResponseHTTP{
@@ -50,10 +58,20 @@ func CreateUser(c *fiber.Ctx) error {
 	user := new(model.User)
 
 	if err := c.BodyParser(user); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(err)
+		return c.Status(fiber.StatusBadRequest).JSON(ResponseHTTP{
+			Success: false,
+			Message: err.Error(),
+			Data:    nil,
+		})
 	}
 
-	// TODO:VERIFICATION QUERIES
+	if user.Username == "" || user.Password == "" || user.Email == "" {
+		return c.Status(fiber.StatusBadRequest).JSON(ResponseHTTP{
+			Success: false,
+			Message: "Sorry cannot insert empty fields",
+			Data:    nil,
+		})
+	}
 
 	// TODO:HASHING PASSWORD
 
