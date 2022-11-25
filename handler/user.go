@@ -6,9 +6,19 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// Select all users
 func GetAllUsers(c *fiber.Ctx) error {
-	// FIXME: implements here
-	return nil
+	db := database.DB
+
+	users := new([]model.User)
+
+	if err := db.Find(&users).Error; err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(err)
+	}
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"data": users,
+	})
 }
 
 // Creates a new user on Database
