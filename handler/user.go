@@ -17,8 +17,10 @@ func GetAllUsers(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(err)
 	}
 
-	return c.Status(fiber.StatusOK).JSON(fiber.Map{
-		"data": users,
+	return c.Status(fiber.StatusOK).JSON(ResponseHTTP{
+		Success: true,
+		Data:    users,
+		Message: "all users",
 	})
 }
 
@@ -35,7 +37,11 @@ func GetUserByID(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusInternalServerError).JSON(err)
 	}
 
-	return c.Status(fiber.StatusOK).JSON(user)
+	return c.Status(fiber.StatusOK).JSON(ResponseHTTP{
+		Success: true,
+		Data:    user,
+		Message: "userFound",
+	})
 }
 
 // Creates a new user on Database
