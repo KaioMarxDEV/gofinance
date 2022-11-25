@@ -17,7 +17,7 @@ func Init() {
 	connected, try := false, 0
 	for connected != true {
 		if try > 5 {
-			break
+			log.Fatal("Something is wrong, impossible to connect on Database")
 		}
 		connected = database.ConnectDB()
 		try++
