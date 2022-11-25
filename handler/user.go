@@ -11,8 +11,9 @@ func GetAllUsers(c *fiber.Ctx) error {
 	db := database.DB
 
 	var users []model.User
+	err := db.Find(&users).Error
 
-	if err := db.Table("users").Find(&users).Error; err != nil {
+	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(err)
 	}
 
@@ -28,7 +29,7 @@ func GetUserByID(c *fiber.Ctx) error {
 	id := c.Params("id")
 
 	// SELECT * FROM users WHERE ID equals to id, and allocate that in user var
-	err := db.Table("users").Find(&user).Where("ID == ?", id).Error
+	err := db.Table("users").Find(&user, "ID = ?", id).Error
 
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(err)
