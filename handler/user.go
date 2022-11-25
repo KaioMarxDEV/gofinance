@@ -10,15 +10,31 @@ import (
 func GetAllUsers(c *fiber.Ctx) error {
 	db := database.DB
 
-	users := new([]model.User)
+	var users []model.User
 
-	if err := db.Find(&users).Error; err != nil {
+	if err := db.Table("users").Find(&users).Error; err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(err)
 	}
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"data": users,
 	})
+}
+
+// Select user by id
+func GetUserByID(c *fiber.Ctx) error {
+	db := database.DB
+	var user model.User
+	id := c.Params("id")
+
+	// SELECT * FROM users WHERE ID equals to id, and allocate that in user var
+	err := db.Table("users").Find(&user).Where("ID == ?", id).Error
+
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(err)
+	}
+
+	return c.Status(fiber.StatusOK).JSON(user)
 }
 
 // Creates a new user on Database
