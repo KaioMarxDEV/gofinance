@@ -58,4 +58,4 @@ docker compose up db -d
 air -c .air.conf
 ```
 
-Create a `gofinance.env` file similar to [`.env.example`](https://github.com/KaioMarxDEV/gofinance/blob/main/gofinance.demo.env).
+Create a `gofinance.env` file similar to [`demo.env`](https://github.com/KaioMarxDEV/gofinance/blob/main/gofinance.demo.env).
