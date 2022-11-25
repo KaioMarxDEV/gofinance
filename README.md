@@ -15,6 +15,8 @@ technical and architectural believes, written in the best/beast GO language.
 Going against the community's standard framework (gin), I decided to implement a REST API using the safest and most performant framework of all popular web languages, and luckily that framework is written in Go (huff is not JavaScript) 
 so I built the application described in the video, but thinking about the pillars of programming in Go, ending the project with a functional application with real cases and an easy-to-understand code, commented and standardized by google's style guides.
 
+## Design Diagram
+
 ## Overview
 
 - `config/config.go` - Automatically load .env values from gofinance.env file.
