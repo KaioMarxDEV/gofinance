@@ -3,7 +3,7 @@
 # gofinance
 
 - **Framework**: [Fiber](https://github.com/gofiber/fiber)
-- **Database**: [Postgres (or any relational database)](https://hub.docker.com/_/postgres/)
+- **Database**: [Postgres](https://hub.docker.com/_/postgres/)
 - **ORM**: [Gorm](https://gorm.io/)
 - **CLI**: [Air](https://github.com/cosmtrek/air)
 
