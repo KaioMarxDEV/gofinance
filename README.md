@@ -37,6 +37,7 @@ ps: all below are ordered by time, oldest to newest, that means as the applicati
 - `handlers/*` - My "controller" folder, handles all the flux of request and response manipulating Database and Fiber Context.
 - `model/*` - Static object models serving as data structure and schema to database tables creation by migrations.
 - `routes/*` - Group routing and organize REST endpoints calls.
+- `web/*` - Folder of React App built by Vitejs.
 - `.air.conf` - File to active live reloading of main.go compiled binary in temporary folder excluded on exit.
 - `.editorconfig` - Part of VScode extension to organize the files and suit for every editor out there.
 - `.compose.yaml` - Composition file used to create database and API container, isolating from outside host affairs.
@@ -51,7 +52,7 @@ ps: all below are ordered by time, oldest to newest, that means as the applicati
 - `GET:3000/api/user` - returns all users registered on database at the moment.
 - `GET:3000/api/user/:id` - returns specific user that matches the id (type uuid) passed.
 
-## Running Locally
+## Running Locally API
 
 This application requires golang v1.19+.   
 This application requires docker engine v20.10.21 and docker compose.   
