@@ -1,8 +1,8 @@
 package handler
 
 import (
-	"github.com/KaioMarxDEV/gofinance/database"
-	"github.com/KaioMarxDEV/gofinance/model"
+	"github.com/KaioMarxDEV/gofinance/cmd/database"
+	"github.com/KaioMarxDEV/gofinance/cmd/model"
 	"github.com/gofiber/fiber/v2"
 	"golang.org/x/crypto/bcrypt"
 )

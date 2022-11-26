@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/KaioMarxDEV/gofinance/config"
-	"github.com/KaioMarxDEV/gofinance/model"
+	"github.com/KaioMarxDEV/gofinance/cmd/config"
+	"github.com/KaioMarxDEV/gofinance/cmd/model"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )

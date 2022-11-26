@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 
-	"github.com/KaioMarxDEV/gofinance/database"
-	"github.com/KaioMarxDEV/gofinance/routes"
+	"github.com/KaioMarxDEV/gofinance/cmd/database"
+	"github.com/KaioMarxDEV/gofinance/cmd/routes"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/recover"
