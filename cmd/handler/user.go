@@ -86,11 +86,31 @@ func CreateUser(c *fiber.Ctx) error {
 		})
 	}
 
-	// VALIDATE EMPTY BODY DATA
+	// VALIDATE IF BODY DATA IS EMPTY
 	if user.Username == "" || user.Password == "" || user.Email == "" {
 		return c.Status(fiber.StatusBadRequest).JSON(ResponseHTTP{
 			Success: false,
 			Message: "Sorry cannot insert empty fields",
+			Data:    nil,
+		})
+	}
+
+	// VALIDATE IF EMAIL PASSED IS NEW BY GETTING SUCCESS(nil) FROM FOUND QUERY
+	userEmailFoundErr := db.Table("users").Find(&user, "Email = ?", user.Email).Error
+	if userEmailFoundErr == nil {
+		return c.Status(fiber.StatusBadRequest).JSON(ResponseHTTP{
+			Success: false,
+			Message: "user email already Exists",
+			Data:    nil,
+		})
+	}
+
+	// // VALIDATE IF USERNAME PASSED IS NEW BY GETTING SUCCESS(nil) FROM FOUND QUERY
+	userUsernameFoundErr := db.Table("users").Find(&user, "Username = ?", user.Username).Error
+	if userUsernameFoundErr == nil {
+		return c.Status(fiber.StatusBadRequest).JSON(ResponseHTTP{
+			Success: false,
+			Message: "username already Exists",
 			Data:    nil,
 		})
 	}
@@ -104,8 +124,6 @@ func CreateUser(c *fiber.Ctx) error {
 			Data:    nil,
 		})
 	}
-
-	// TODO: Verify if the data passed is already registered
 
 	// INSERT QUERY
 	if err = db.Create(&user).Error; err != nil {
