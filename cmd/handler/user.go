@@ -95,9 +95,12 @@ func CreateUser(c *fiber.Ctx) error {
 		})
 	}
 
-	// VALIDATE IF EMAIL PASSED IS NEW BY GETTING SUCCESS(nil) FROM FOUND QUERY
-	userEmailFoundErr := db.Table("users").Find(&user, "Email = ?", user.Email).Error
-	if userEmailFoundErr == nil {
+	var userFound model.User
+
+	db.Table("users").Where("Username = ?", user.Username).Or("Email = ?", user.Email).Find(&userFound)
+
+	// VALIDATE IF EMAIL PASSED IS NEW OR ALREADY EXISTS
+	if userFound.Email == user.Email {
 		return c.Status(fiber.StatusBadRequest).JSON(ResponseHTTP{
 			Success: false,
 			Message: "user email already Exists",
@@ -105,9 +108,8 @@ func CreateUser(c *fiber.Ctx) error {
 		})
 	}
 
-	// // VALIDATE IF USERNAME PASSED IS NEW BY GETTING SUCCESS(nil) FROM FOUND QUERY
-	userUsernameFoundErr := db.Table("users").Find(&user, "Username = ?", user.Username).Error
-	if userUsernameFoundErr == nil {
+	// VALIDATE IF USERNAME PASSED IS NEW OR ALREADY EXISTS
+	if userFound.Username == user.Username {
 		return c.Status(fiber.StatusBadRequest).JSON(ResponseHTTP{
 			Success: false,
 			Message: "username already Exists",
