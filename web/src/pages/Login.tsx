@@ -1,4 +1,5 @@
 export function Login() {
+  // TODO: missing functionallity, call to API, type correction
   return (
     <main className="relative flex flex-col h-screen text-center bg-gradient-to-r from-[#543ab7] to-[#00acc1]">
       {/* Login Content */}
