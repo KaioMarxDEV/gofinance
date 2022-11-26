@@ -12,23 +12,23 @@
 This project tends to be a useful website for personal managment of finance data, inspired by a video from [Pirate King](https://www.youtube.com/watch?v=-arxoYcRWeM) but with a touch of my
 technical and architectural believes, written in the best/beast GO language.
 
-Going against the community's standard framework (gin), I decided to implement a REST API using the safest and most performant framework of all popular web languages, and luckily that framework is written in Go (huff is not JavaScript) 
+Going against the community's standard framework (gin), I decided to implement a REST API using the safest and most performant framework of all popular web languages, and luckily that framework is written in Go (huff is not JavaScript)
 so I built the application described in the video, but thinking about the pillars of programming in Go, ending the project with a functional application with real cases and an easy-to-understand code, commented and standardized by google's style guides.
 
 despite being inspired by someone else's work, all codes, ideas and standards are my responsibility and effort.
 
 ## Design Diagram
 
-The process of thinking an application is not easy task, not even the small ones. But the world is made of challenges and as a programmer 
+The process of thinking an application is not easy task, not even the small ones. But the world is made of challenges and as a programmer
 what I do best is resolve challenges, with that in mind now you can follow the thinking process from THE VERY FIRST CONCEPT TO THE FINALE DIAGRAMS.
 
 ps: all below are ordered by time, oldest to newest, that means as the application grew I had to adapt and rethink the base foundation to what matted most...
 
-![gofinance diagram](https://user-images.githubusercontent.com/105358332/204063914-ccfd762c-bee5-46bb-9253-5b18ba8c54cf.png)   
+![gofinance diagram](https://user-images.githubusercontent.com/105358332/204063914-ccfd762c-bee5-46bb-9253-5b18ba8c54cf.png)
 
 ><strong>you know everything in life evolves, this app isn't differente, by the followed weeks and many interactions with the codebase I had betters ideas on how everything would tie up, look them below:</strong>
 
-![secondConcept](https://user-images.githubusercontent.com/105358332/204090434-b74ca542-c390-4ee8-a198-e9b57958ca41.png)   
+![secondConcept](https://user-images.githubusercontent.com/105358332/204090434-b74ca542-c390-4ee8-a198-e9b57958ca41.png)
 
 ## Overview
 
@@ -54,8 +54,8 @@ ps: all below are ordered by time, oldest to newest, that means as the applicati
 
 ## Running Locally API
 
-This application requires golang v1.19+.   
-This application requires docker engine v20.10.21 and docker compose.   
+This application requires golang v1.19+.
+This application requires docker engine v20.10.21 and docker compose.
 This application requires air live reload installed.
 
 Create a `gofinance.env` file similar to [`demo.env`](https://github.com/KaioMarxDEV/gofinance/blob/main/gofinance.demo.env).
@@ -64,6 +64,7 @@ Create a `gofinance.env` file similar to [`demo.env`](https://github.com/KaioMar
 ```bash
 git clone https://github.com/KaioMarxDEV/gofinance.git
 cd gofinance
+#change .env DB_URL host to gofinance-db-1
 docker compose up -d
 curl http://localhost:3000/api
 ```
