@@ -12,6 +12,10 @@ func SetupRoutes(app *fiber.App) {
 	// routing with hanlder.hello PING type function to verify API health
 	api.Get("/", handler.Hello)
 
+	// TODO: create authentication route and middleware to ensure it
+
+	// TODO: create static route to serve React compiled app
+
 	// user Routes and Handlers
 	user := api.Group("/user")
 	user.Post("/", handler.CreateUser)
