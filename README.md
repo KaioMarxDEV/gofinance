@@ -50,8 +50,8 @@ ps: all below are ordered by time, oldest to newest, that means as the applicati
 
 ## Running Locally
 
-This application requires golang v1.19+.
-This application requires docker engine v20.10.21 and docker compose.
+This application requires golang v1.19+.   
+This application requires docker engine v20.10.21 and docker compose.   
 This application requires air live reload installed.
 
 ```bash
