@@ -11,16 +11,19 @@ import (
 // Select all users
 func GetAllUsers(c *fiber.Ctx) error {
 	type User struct {
-		ID       uuid.UUID
-		Username string
-		Email    string
+		ID        uuid.UUID
+		Username  string
+		Email     string
+		CreatedAt string
 	}
 
-	db := database.DB
-	var users []User
+	db := database.DB // get instance of database
 
-	err := db.Table("users").Find(&users).Error
+	var users []User // create array to bind and fill with db data
 
+	err := db.Table("users").Omit("password").Find(&users).Error // binds users var to db return
+
+	// search for errors in the find query
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(ResponseHTTP{
 			Success: false,
@@ -29,6 +32,7 @@ func GetAllUsers(c *fiber.Ctx) error {
 		})
 	}
 
+	// return what was found on database
 	return c.Status(fiber.StatusOK).JSON(ResponseHTTP{
 		Success: true,
 		Data:    users,
