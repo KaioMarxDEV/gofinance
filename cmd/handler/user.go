@@ -14,7 +14,7 @@ func GetAllUsers(c *fiber.Ctx) error {
 	var users []model.User
 
 	// FIXME: we returning a list with all information, PASSWORD SHOULD NOT BE RETURNED
-	err := db.Find(&users).Error
+	err := db.Omit("password").Find(&users).Error
 
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(ResponseHTTP{
