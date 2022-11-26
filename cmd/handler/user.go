@@ -8,6 +8,18 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// --- HELPERS FUNCTIONS ---
+// if this section grow too much, isolate them into a new folder
+
+// Hashing password method to CreateUser Handler
+func hashPassword(pass string) (string, error) {
+	newPass, err := bcrypt.GenerateFromPassword([]byte(pass), 10)
+
+	return string(newPass), err
+}
+
+// --- HANDLERS FUNCTIONS ---
+
 // Select all users
 func GetAllUsers(c *fiber.Ctx) error {
 	type User struct {
@@ -62,13 +74,6 @@ func GetUserByID(c *fiber.Ctx) error {
 		Data:    user,
 		Message: "userFound",
 	})
-}
-
-// Hashing password method to CreateUser Handler
-func hashPassword(pass string) (string, error) {
-	newPass, err := bcrypt.GenerateFromPassword([]byte(pass), 10)
-
-	return string(newPass), err
 }
 
 // Creates a new user on Database
