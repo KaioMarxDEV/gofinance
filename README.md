@@ -57,11 +57,20 @@ This application requires golang v1.19+.
 This application requires docker engine v20.10.21 and docker compose.   
 This application requires air live reload installed.
 
+>Just Testing the API
 ```bash
 git clone https://github.com/KaioMarxDEV/gofinance.git
 cd gofinance
 docker compose up -d
 curl http://localhost:3000/api
+```
+
+>You want to dev too
+```bash
+git clone https://github.com/KaioMarxDEV/gofinance.git
+cd gofinance
+docker compose up db -d
+air -c .air.conf
 ```
 
 Create a `gofinance.env` file similar to [`demo.env`](https://github.com/KaioMarxDEV/gofinance/blob/main/gofinance.demo.env).
