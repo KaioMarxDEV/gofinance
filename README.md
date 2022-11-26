@@ -43,7 +43,10 @@ ps: all below are ordered by time, oldest to newest, that means as the applicati
 
 ## Endpoints
 
-- `:3000/api` - greetings route for you adventurer to have found this api.
+- `GET:3000/api` - greetings route for you adventurer to have found this api.
+- `POST:3000/api/user` - receives data from JSON request body and creates a new user on database.
+- `GET:3000/api/user` - returns all users registered on database at the moment.
+- `GET:3000/api/user/:id` - returns specific user that matches the id (type uuid) passed.
 
 ## Running Locally
 
