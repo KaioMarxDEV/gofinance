@@ -4,17 +4,22 @@ import (
 	"github.com/KaioMarxDEV/gofinance/cmd/database"
 	"github.com/KaioMarxDEV/gofinance/cmd/model"
 	"github.com/gofiber/fiber/v2"
+	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 )
 
 // Select all users
 func GetAllUsers(c *fiber.Ctx) error {
+	type User struct {
+		ID       uuid.UUID
+		Username string
+		Email    string
+	}
+
 	db := database.DB
+	var users []User
 
-	var users []model.User
-
-	// FIXME: we returning a list with all information, PASSWORD SHOULD NOT BE RETURNED
-	err := db.Omit("password").Find(&users).Error
+	err := db.Table("users").Find(&users).Error
 
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(ResponseHTTP{
