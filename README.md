@@ -57,8 +57,8 @@ This application requires air live reload installed.
 ```bash
 git clone https://github.com/KaioMarxDEV/gofinance.git
 cd gofinance
-docker compose up db -d
-air -c .air.conf
+docker compose up -d
+curl http://localhost:3000/api
 ```
 
 Create a `gofinance.env` file similar to [`demo.env`](https://github.com/KaioMarxDEV/gofinance/blob/main/gofinance.demo.env).
