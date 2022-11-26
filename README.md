@@ -24,8 +24,11 @@ what I do best is resolve challenges, with that in mind now you can follow the t
 
 ps: all below are ordered by time, oldest to newest, that means as the application grew I had to adapt and rethink the base foundation to what matted most...
 
-![gofinance diagram](https://user-images.githubusercontent.com/105358332/204063914-ccfd762c-bee5-46bb-9253-5b18ba8c54cf.png)
+![gofinance diagram](https://user-images.githubusercontent.com/105358332/204063914-ccfd762c-bee5-46bb-9253-5b18ba8c54cf.png)   
 
+><strong>you know everything in life evolves, this app isn't differente, by the followed weeks and many interactions with the codebase I had betters ideas on how everything would tie up, look them below:</strong>
+
+![secondConcept](https://user-images.githubusercontent.com/105358332/204090434-b74ca542-c390-4ee8-a198-e9b57958ca41.png)   
 
 ## Overview
 
