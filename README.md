@@ -64,7 +64,7 @@ Create a `gofinance.env` file similar to [`demo.env`](https://github.com/KaioMar
 ```bash
 git clone https://github.com/KaioMarxDEV/gofinance.git
 cd gofinance
-#change .env DB_URL host to db
+#change URL string host var to db on ./database/connect.go
 docker compose up -d db
 docker compose up -d myapp
 curl http://localhost:3000/api
@@ -75,7 +75,7 @@ curl http://localhost:3000/api
 git clone https://github.com/KaioMarxDEV/gofinance.git
 cd gofinance
 docker compose up db -d
-#change .env DB_URL host to localhost
+#change URL string host var to localhost on ./database/connect.go
 air -c .air.conf
 ```
 

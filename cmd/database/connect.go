@@ -12,8 +12,9 @@ import (
 func ConnectDB() bool {
 	var err error
 
-	// Get .env by initializer .env values function named "Config"
-	dsn := "host=db  port=5432 user=gofinance password=docker dbname=postgres sslmode=disable"
+	// host=db when using with docker compose
+	// host=localhost when using with air live reload
+	dsn := "host=localhost  port=5432 user=gofinance password=docker dbname=postgres sslmode=disable"
 
 	// open the connection with database using ORM library named gorm and postgres driver
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
