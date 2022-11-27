@@ -3,6 +3,7 @@ package handler
 import (
 	"github.com/KaioMarxDEV/gofinance/cmd/database"
 	"github.com/KaioMarxDEV/gofinance/cmd/model"
+	validate "github.com/KaioMarxDEV/gofinance/cmd/util"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
@@ -97,6 +98,16 @@ func CreateUser(c *fiber.Ctx) error {
 			Success: false,
 			Message: "Sorry cannot insert empty fields",
 			Data:    nil,
+		})
+	}
+
+	// VALIDATE BY STRUCT DEFINITIONS USING UTIL FUNCTION
+	errors := validate.ValidateStruct(*user)
+	if errors != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(ResponseHTTP{
+			Success: false,
+			Data:    errors,
+			Message: "Given data type is not supported or is wrong",
 		})
 	}
 
