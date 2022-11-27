@@ -6,7 +6,6 @@ import (
 	"github.com/KaioMarxDEV/gofinance/cmd/database"
 	"github.com/KaioMarxDEV/gofinance/cmd/routes"
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 )
 
@@ -25,9 +24,14 @@ func InitDatabase() {
 }
 
 func main() {
-	InitDatabase()      // initiate database connection
-	app := fiber.New()  // server instace creation by gofiber
-	app.Use(cors.New()) // enabling CORS for cross platform conections (Frontend)
+	InitDatabase()     // initiate database connection
+	app := fiber.New() // server instace creation by gofiber
+
+	// Prepare a static middleware to serve the built React files.
+	app.Static("/", "./web/build")
+
+	// Prepare a fallback route to always serve the 'index.html', had there not be any matching routes.
+	app.Static("*", "./web/build/index.html")
 
 	app.Use(recover.New()) // recover from panic calls at any point of handlers context
 

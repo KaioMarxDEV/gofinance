@@ -10,7 +10,7 @@ import (
 // functin to get env correspondent value from key passed
 func Config(key string) string {
 	// load .env file and hit errors if does not exists
-	err := godotenv.Load("gofinance.env")
+	err := godotenv.Load("../../gofinance.env")
 	if err != nil {
 		fmt.Print("Error - Loading .env file:\t", err)
 	}

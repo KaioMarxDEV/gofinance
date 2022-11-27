@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/KaioMarxDEV/gofinance/cmd/config"
 	"github.com/KaioMarxDEV/gofinance/cmd/model"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -14,7 +13,7 @@ func ConnectDB() bool {
 	var err error
 
 	// Get .env by initializer .env values function named "Config"
-	dsn := config.Config("DB_URL")
+	dsn := "host=db  port=5432 user=gofinance password=docker dbname=postgres sslmode=disable"
 
 	// open the connection with database using ORM library named gorm and postgres driver
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})

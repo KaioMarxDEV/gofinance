@@ -64,16 +64,24 @@ Create a `gofinance.env` file similar to [`demo.env`](https://github.com/KaioMar
 ```bash
 git clone https://github.com/KaioMarxDEV/gofinance.git
 cd gofinance
-#change .env DB_URL host to gofinance-db-1
-docker compose up -d
+#change .env DB_URL host to db
+docker compose up -d db
+docker compose up -d myapp
 curl http://localhost:3000/api
 ```
 
->You want to dev faster as well
+>You want to dev the backend faster
 ```bash
 git clone https://github.com/KaioMarxDEV/gofinance.git
 cd gofinance
 docker compose up db -d
 #change .env DB_URL host to localhost
 air -c .air.conf
+```
+
+>You want to dev the frontend faster
+```bash
+git clone https://github.com/KaioMarxDEV/gofinance.git
+cd gofinance/web
+yarn && yarn dev
 ```
