@@ -15,7 +15,7 @@ type errorResponse struct {
 // Validation by models struct definition (validate:)
 var validate = validator.New()
 
-func ValidateStruct(user model.User) []*errorResponse {
+func Struct(user model.User) []*errorResponse {
 	var errors []*errorResponse
 	err := validate.Struct(user)
 	if err != nil {

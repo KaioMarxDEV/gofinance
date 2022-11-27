@@ -102,7 +102,7 @@ func CreateUser(c *fiber.Ctx) error {
 	}
 
 	// VALIDATE BY STRUCT DEFINITIONS USING UTIL FUNCTION
-	errors := validate.ValidateStruct(*user)
+	errors := validate.Struct(*user)
 	if errors != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(ResponseHTTP{
 			Success: false,
