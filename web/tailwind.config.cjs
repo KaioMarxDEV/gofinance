@@ -19,12 +19,6 @@ module.exports = {
         }
       }
     },
-    animationDelay: {
-      1: "-2000ms",
-      2: "-3000ms",
-      3: "-4000ms",
-      4: "-5000ms",
-    },
   },
   plugins: [],
 }
