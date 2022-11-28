@@ -13,7 +13,7 @@ export function Header() {
         <div>
           <button className="rounded-md bg-gray-800 border-b-4 border-b-green-500 hover:translate-y-1 hover:bg-green-500 transition-all ease-in-out delay-75 duration-300 h-full w-full px-5 py-2">
             <strong className="text-base">
-              New Transaction +
+              New Transaction
             </strong>
           </button>
         </div>
