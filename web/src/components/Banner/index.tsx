@@ -28,7 +28,7 @@ export function Banner() {
             <span className="text-3xl">-R$ 1.000,00</span>
           </div>
         </div>
-        <div className="bg-gradient-to-b from-[#543ab7] to-[#00acc1] flex flex-col justify-between transition-all ease-in delay-75 duration-200 hover:-translate-y-1  border-4 h-36 p-6 rounded-lg w-full">
+        <div className="bg-gradient-to-b from-[#543ab7] to-[#00acc1] flex flex-col justify-between transition-all ease-in delay-75 duration-200 hover:-translate-y-1  h-36 p-6 rounded-lg w-full">
           <div className="flex flex-row justify-between items-center">
             <span>Total</span>
             <Bank size={28} />
