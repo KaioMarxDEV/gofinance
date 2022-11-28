@@ -1,7 +1,7 @@
 export function Header() {
   return (
-    <div className="h-52 bg-black shadow-green-700 shadow-xl">
-      <div className="max-w-4xl mx-auto pt-10">
+    <div className="pt-10 pb-28 bg-gradient-to-r from-[#543ab7] via-[#00acc1] to-[#543ab7] shadow-black shadow-xl">
+      <div className="max-w-4xl mx-auto">
         <div className="flex flex-row justify-between items-center">
           <div>
             <h1 className="text-center text-2xl font-light">
@@ -12,7 +12,7 @@ export function Header() {
             </h1>
           </div>
           <div>
-            <button className="border border-green-700 rounded-md hover:bg-green-500 transition-all ease-in-out delay-75 duration-500 h-full w-full px-5 py-2">
+            <button className="rounded-md bg-gray-800 hover:bg-green-500 transition-all ease-in-out delay-75 duration-500 h-full w-full px-5 py-2">
               <strong className="text-base">
                 New Transaction
               </strong>
