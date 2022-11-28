@@ -11,7 +11,9 @@ export function Header() {
           </h1>
         </div>
         <div>
-          <button className="rounded-md bg-gray-900 border border-green-500 border-b-4 border-b-green-500 hover:translate-y-1 hover:bg-green-500 transition-all ease-in-out delay-75 duration-300 h-full w-full px-5 py-2">
+          <button className="rounded-md border border-green-500 hover:bg-green-700 hover:shadow-lg
+          focus:bg-green-500 focus:shadow-lg focus:outline-none focus:ring-0
+          active:bg-green-500 active:shadow-lg transition-all ease-in-out duration-150 h-full w-full px-5 py-2">
             <strong className="text-base">
               New Transaction +
             </strong>
