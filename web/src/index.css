@@ -14,8 +14,7 @@
   button {
     @apply cursor-pointer
   }
-
   :focus {
-    @apply shadow-sm shadow-green-500
+    @apply bg-green-500 shadow-lg outline-none ring-0
   }
 }
