@@ -5,6 +5,7 @@ import (
 
 	"github.com/KaioMarxDEV/gofinance/cmd/database"
 	"github.com/KaioMarxDEV/gofinance/cmd/routes"
+	"github.com/bytedance/sonic"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/recover"
@@ -25,8 +26,11 @@ func InitDatabase() {
 }
 
 func main() {
-	InitDatabase()     // initiate database connection
-	app := fiber.New() // server instace creation by gofiber
+	InitDatabase() // initiate database connection
+	app := fiber.New(fiber.Config{
+		JSONEncoder: sonic.Marshal,
+		JSONDecoder: sonic.Unmarshal,
+	}) // server instace by gofiber with alternative JSON enconder/decoder
 	app.Use(cors.New())
 
 	// Prepare a static middleware to serve the built React files.
