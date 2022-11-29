@@ -16,7 +16,7 @@ func InitDatabase() {
 	// tries until database docker is ready...this is a work around of Docker
 	// and distributed system issue with "waiting to someone"
 	connected, try := false, 0
-	for connected != true {
+	for !connected {
 		if try > 10 {
 			log.Fatal("Something is wrong, impossible to connect on Database")
 		}
