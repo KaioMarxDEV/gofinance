@@ -12,7 +12,6 @@ import (
 )
 
 func InitDatabase() {
-	// connect to Docker infra using .env values
 	// tries until database docker is ready...this is a work around of Docker
 	// and distributed system issue with "waiting to someone"
 	connected, try := false, 0
@@ -27,10 +26,13 @@ func InitDatabase() {
 
 func main() {
 	InitDatabase() // initiate database connection
+
+	// server instace by gofiber with alternative JSON enconder/decoder
 	app := fiber.New(fiber.Config{
 		JSONEncoder: sonic.Marshal,
 		JSONDecoder: sonic.Unmarshal,
-	}) // server instace by gofiber with alternative JSON enconder/decoder
+	})
+
 	app.Use(cors.New())
 
 	// Prepare a static middleware to serve the built React files.
@@ -39,9 +41,12 @@ func main() {
 	// Prepare a fallback route to always serve the 'index.html', had there not be any matching routes.
 	app.Static("*", "./web/build/index.html")
 
-	app.Use(recover.New()) // recover from panic calls at any point of handlers context
+	// recover from panic calls at any point of handlers context
+	app.Use(recover.New())
 
-	routes.SetupRoutes(app) // initialize routing groups and endpoints
+	// initialize routing groups and endpoints
+	routes.SetupRoutes(app)
 
-	log.Fatal(app.Listen(":3000")) // shutting down the app with fatal function if listening fails
+	// shutting down the app with fatal function if listening fails
+	log.Fatal(app.Listen(":3000"))
 }
