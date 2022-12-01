@@ -1,7 +1,7 @@
 export function Transactions() {
   let variant = 'income'
   return (
-    <div className="w-full max-w-6xl mt-10 mx-auto px-5">
+    <div className="w-full max-w-6xl mt-8 mx-auto px-5">
       <table className="w-full">
         <tbody className="flex flex-col gap-3">
           <tr className="bg-gray-800 flex justify-between rounded-xl py-5 px-8">

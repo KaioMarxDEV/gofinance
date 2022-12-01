@@ -1,5 +1,5 @@
 import { Dialog, Transition } from "@headlessui/react"
-import { XCircle } from "phosphor-react"
+import { ChartPie, XCircle } from "phosphor-react"
 import { Fragment, useState } from "react"
 
 export function Header() {
@@ -23,6 +23,7 @@ export function Header() {
       {/* Header Content */}
       <div className="pt-10 pb-28 bg-gray-900 shadow-green-500 shadow-xl">
         <div className="w-full max-w-6xl px-6 mx-auto flex flex-row justify-between items-center">
+          {/* Title */}
           <div>
             <h1 className="text-center text-2xl font-light">
               GoFinance
@@ -31,13 +32,24 @@ export function Header() {
               </span>
             </h1>
           </div>
-          <div>
+          <div className="flex items-center">
+            <nav className=" flex flex-row mr-8 gap-4 px-4 py-2 rounded-md bg-gray-800">
+              <button
+                type="button"
+                className="flex flex-col items-center text-base text-green-500/80 hover:text-green-400 rounded-md cursor-pointer transition-all ease-in delay-75 duration-200 hover:translate-y-1"
+                // TODO: create charts page and route to there!
+                onClick={() => alert("go to page charts mf!")}
+              >
+                <ChartPie size={28} />
+                charts
+              </button>
+            </nav>
             <button
               type="button"
               onClick={openModal}
-              className="inline-flex justify-center rounded-md border border-green-500  px-8 py-5 text-base text-green-500 hover:text-white hover:bg-green-500/50 hover:border-green-500 transition-all ease-in delay-75 duration-200"
+              className="inline-flex justify-center rounded-md  px-8 py-5 text-base bg-green-600/80 border-2 border-green-500 text-white hover:bg-green-500 hover:border-green-500 transition-all ease-in delay-75 duration-200"
               >
-              New Transaction
+              Add Transaction
             </button>
           </div>
         </div>
