@@ -56,12 +56,15 @@ func GetAllUsers(c *fiber.Ctx) error {
 
 // Select user by id
 func GetUserByID(c *fiber.Ctx) error {
-	db := database.DB
-	var user model.User
-	id := c.Params("id")
+	var (
+		db   = database.DB
+		user model.User
+		id   = c.Params("id")
+		err  error
+	)
 
 	// SELECT * FROM users WHERE ID equals to id, and allocate that in user var
-	err := db.Table("users").Find(&user, "ID = ?", id).Error
+	err = db.Table("users").Find(&user, "ID = ?", id).Error
 
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(ResponseHTTP{
@@ -80,9 +83,13 @@ func GetUserByID(c *fiber.Ctx) error {
 
 // Creates a new user on Database
 func CreateUser(c *fiber.Ctx) error {
-	var err error
-	db := database.DB
-	user := new(model.User)
+	var (
+		err  error
+		db   = database.DB
+		user = new(model.User)
+
+		userFound model.User
+	)
 
 	// GET INFO FROM BODY AND BIND TO USER VARIABLE
 	if err = c.BodyParser(user); err != nil {
@@ -112,8 +119,7 @@ func CreateUser(c *fiber.Ctx) error {
 		})
 	}
 
-	var userFound model.User
-
+	// DATABASE QUERY WITH CREATE DATA INPUTTED
 	db.Table("users").Where("Username = ?", user.Username).Or("Email = ?", user.Email).Find(&userFound)
 
 	// VALIDATE IF EMAIL PASSED IS NEW OR ALREADY EXISTS
