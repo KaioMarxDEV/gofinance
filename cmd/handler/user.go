@@ -9,8 +9,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-// --- HELPERS FUNCTIONS ---
-// if this section grow too much, isolate them into a new folder
+// --- HELPERS FUNCTIONS START ---
 
 // Hashing password method to CreateUser Handler
 func hashPassword(pass string) (string, error) {
@@ -19,8 +18,9 @@ func hashPassword(pass string) (string, error) {
 	return string(newPass), err
 }
 
-// --- HANDLERS FUNCTIONS ---
+// --- HELPERS FUNCTIONS END ---
 
+// --- HANDLERS FUNCTIONS START ---
 // Select all users
 func GetAllUsers(c *fiber.Ctx) error {
 	type User struct {
@@ -29,12 +29,13 @@ func GetAllUsers(c *fiber.Ctx) error {
 		Email     string
 		CreatedAt string
 	}
+	var (
+		db    = database.DB // get instance of database
+		users []User        // create array to bind and fill with db data
+		err   error
+	)
 
-	db := database.DB // get instance of database
-
-	var users []User // create array to bind and fill with db data
-
-	err := db.Table("users").Omit("password").Find(&users).Error // binds users var to db return
+	err = db.Table("users").Omit("password").Find(&users).Error // binds users var to db return
 
 	// search for errors in the find query
 	if err != nil {
@@ -152,3 +153,5 @@ func CreateUser(c *fiber.Ctx) error {
 
 	return c.SendStatus(fiber.StatusCreated)
 }
+
+// --- HANDLERS FUNCTIONS END ---

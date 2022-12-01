@@ -43,9 +43,14 @@ func Login(c *fiber.Ctx) error {
 		Email    string `json:"email"`
 		Password string `json:"password"`
 	}
-	input := new(LoginInput)
-	var user User
+	var (
+		input            = new(LoginInput)
+		user             User
+		err              error
+		userFromUserName *model.User
+	)
 
+	// gets the request body and bind to input variable filling it with data
 	if err := c.BodyParser(&input); err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(ResponseHTTP{
 			Success: false,
@@ -54,6 +59,7 @@ func Login(c *fiber.Ctx) error {
 		})
 	}
 
+	// verifies if inputs passed on request body is empty returning an error in cause true
 	if input.Username == "" || input.Password == "" {
 		return c.Status(fiber.StatusBadRequest).JSON(ResponseHTTP{
 			Success: false,
@@ -62,8 +68,10 @@ func Login(c *fiber.Ctx) error {
 		})
 	}
 
-	userFromUserName, err := GetUserByUserName(input.Username)
+	// call the database to validate the login username exists
+	userFromUserName, err = GetUserByUserName(input.Username)
 
+	// database query error handler
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(ResponseHTTP{
 			Success: false,
@@ -72,6 +80,7 @@ func Login(c *fiber.Ctx) error {
 		})
 	}
 
+	// verifies if record with username from request body exists and if don't return error
 	if userFromUserName == nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(ResponseHTTP{
 			Success: false,
@@ -80,6 +89,7 @@ func Login(c *fiber.Ctx) error {
 		})
 	}
 
+	// if record exists we fill user var with database data from user found by username
 	if userFromUserName != nil {
 		user = User{
 			ID:       userFromUserName.ID.String(),
@@ -96,13 +106,14 @@ func Login(c *fiber.Ctx) error {
 		})
 	}
 
-	token := jwt.New(jwt.SigningMethodHS256)
+	// Create JWT object and payload configurations
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"username": user.Username,
+		"user_id":  user.ID,
+		"exp":      time.Now().Add(time.Hour * 72).Unix(),
+	})
 
-	claims := token.Claims.(jwt.MapClaims)
-	claims["username"] = user.Username
-	claims["user_id"] = user.ID
-	claims["exp"] = time.Now().Add(time.Hour * 72).Unix()
-
+	// Generate a JWT token string using the JWT object and a secret
 	tokenString, err := token.SignedString([]byte("SECRET"))
 
 	if err != nil {

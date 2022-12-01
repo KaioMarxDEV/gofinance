@@ -2,7 +2,6 @@ package routes
 
 import (
 	"github.com/KaioMarxDEV/gofinance/cmd/handler"
-	"github.com/KaioMarxDEV/gofinance/cmd/middleware"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 )
@@ -17,7 +16,8 @@ func SetupRoutes(app *fiber.App) {
 
 	// user Routes and Handlers
 	user := api.Group("/user")
-	user.Get("/", middleware.Authenticate, handler.GetAllUsers)
 	user.Post("/", handler.CreateUser)
+	// TODO: implement admin authenticate middleware to all below routes
+	user.Get("/", handler.GetAllUsers)
 	user.Get("/:id", handler.GetUserByID)
 }
