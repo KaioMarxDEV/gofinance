@@ -10,11 +10,14 @@ import (
 )
 
 func ConnectDB() bool {
-	var err error
+	var (
+		err error
+		dsn string
+	)
 
 	// host=db when using with docker compose
 	// host=localhost when using with air live reload
-	dsn := "host=localhost  port=5432 user=gofinance password=docker dbname=postgres sslmode=disable"
+	dsn = "host=localhost  port=5432 user=gofinance password=docker dbname=postgres sslmode=disable"
 
 	// open the connection with database using ORM library named gorm and postgres driver
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})

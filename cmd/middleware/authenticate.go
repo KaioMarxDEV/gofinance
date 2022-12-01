@@ -6,11 +6,13 @@ import (
 
 	"github.com/KaioMarxDEV/gofinance/cmd/database"
 	"github.com/KaioMarxDEV/gofinance/cmd/model"
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gofiber/fiber/v2"
 	"github.com/montanaflynn/jsonwebtoken"
 	"gorm.io/gorm"
 )
 
+// --- REPOSITORY FUNCTIONS START ---
 func GetUserByID(id interface{}) (*model.User, error) {
 	db := database.DB
 
@@ -26,8 +28,19 @@ func GetUserByID(id interface{}) (*model.User, error) {
 	return &user, nil
 }
 
+// --- REPOSITORY FUNCTIONS END ---
+
+// --- MIDDLEWARES FUNCTIONS START ---
 func Authenticate(c *fiber.Ctx) error {
-	bearerToken := c.Get("Authorization")
+	var (
+		bearerToken = c.Get("Authorization")
+
+		jwtString   string
+		tokenString string
+		err         error
+		tokenClaims jwt.MapClaims
+		userExists  *model.User
+	)
 
 	if bearerToken == "" {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
@@ -36,8 +49,8 @@ func Authenticate(c *fiber.Ctx) error {
 		})
 	}
 
-	_, string, _ := strings.Cut(bearerToken, "Bearer ")
-	tokenString := strings.TrimSpace(string)
+	_, jwtString, _ = strings.Cut(bearerToken, "Bearer ")
+	tokenString = strings.TrimSpace(jwtString)
 
 	if tokenString == "" {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
@@ -46,7 +59,7 @@ func Authenticate(c *fiber.Ctx) error {
 		})
 	}
 
-	tokenClaims, err := jsonwebtoken.DecodeHMAC(tokenString, []byte("SECRET"))
+	tokenClaims, err = jsonwebtoken.DecodeHMAC(tokenString, []byte("SECRET"))
 
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
@@ -57,7 +70,7 @@ func Authenticate(c *fiber.Ctx) error {
 	}
 
 	// verifies if ID on payload is valid
-	_, err = GetUserByID(tokenClaims["user_id"])
+	userExists, err = GetUserByID(tokenClaims["user_id"])
 
 	if err != nil {
 		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
@@ -67,6 +80,9 @@ func Authenticate(c *fiber.Ctx) error {
 	}
 
 	// set header "user_id" to receive in all subsequent routes the user_id value
-	c.Locals("user_id", tokenClaims["user_id"])
+	c.Locals("user_id", userExists.ID)
+	// call the next route
 	return c.Next()
 }
+
+// --- MIDDLEWARES FUNCTIONS END ---

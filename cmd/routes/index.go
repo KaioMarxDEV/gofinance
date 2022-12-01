@@ -17,6 +17,7 @@ func SetupRoutes(app *fiber.App) {
 	// user Routes and Handlers
 	user := api.Group("/user")
 	user.Post("/", handler.CreateUser)
+
 	// TODO: implement admin authenticate middleware to all below routes
 	user.Get("/", handler.GetAllUsers)
 	user.Get("/:id", handler.GetUserByID)
