@@ -127,12 +127,12 @@ export function Header() {
                       required
                     />
                     <RadioGroup.Root className="mt-4 gap-4 inline-flex">
-                      <RadioGroup.Item value="income" className="aria-checked:text-white flex-1 flex items-center flex-row justify-center p-4 text-gray-900 aria-checked:bg-green-500 hover:bg-gray-300 bg-gray-200 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2">
+                      <RadioGroup.Item value="income" className="aria-checked:text-white gap-1 flex-1 flex items-center flex-row justify-center p-4 text-gray-900 aria-checked:bg-green-500 hover:bg-gray-300 bg-gray-200 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2">
                         Income
                         <ArrowUp size={16} />
                         <CurrencyDollarSimple size={16} />
                       </RadioGroup.Item> 
-                      <RadioGroup.Item value="outcome" className="aria-checked:text-white flex-1 flex items-center flex-row justify-center p-4 text-gray-900 aria-checked:bg-red-500 hover:bg-gray-300 bg-gray-200 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2">
+                      <RadioGroup.Item value="outcome" className="aria-checked:text-white gap-1 flex-1 flex items-center flex-row justify-center p-4 text-gray-900 aria-checked:bg-red-500 hover:bg-gray-300 bg-gray-200 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2">
                         Outcome
                         <ArrowDown size={16} />
                         <CurrencyDollarSimple size={16} />
