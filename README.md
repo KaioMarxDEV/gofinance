@@ -2,6 +2,7 @@
 
 # gofinance
 
+- **Programming Languages**: [Go](https://go.dev/), [Typescript](https://www.typescriptlang.org/)
 - **Framework**: [Fiber](https://github.com/gofiber/fiber)
 - **Database**: [Postgres](https://hub.docker.com/_/postgres/)
 - **ORM**: [Gorm](https://gorm.io/)
