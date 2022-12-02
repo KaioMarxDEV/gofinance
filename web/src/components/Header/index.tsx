@@ -109,12 +109,26 @@ export function Header() {
                   <form className="mt-4 flex flex-col justify-center">
                     <input
                       className="inline-flex text-gray-900 bg-gray-200 p-4 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
-                      placeholder="Transaction Name"
+                      placeholder="Description"
+                      type="text"
+                      required
                     />
                     <input
                       className="inline-flex mt-4 text-gray-900 bg-gray-200 p-4 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
-                      placeholder="Description"
+                      placeholder="Number"
+                      type="number"
+                      required
                     />
+                    <input
+                      className="inline-flex mt-4 text-gray-900 bg-gray-200 p-4 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
+                      placeholder="Category"
+                      type="text"
+                      required
+                    />
+                    <div className="mt-4 gap-4 inline-flex">
+                      <button className="flex-1 p-4 bg-gray-200 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2">Income</button>
+                      <button className="flex-1 p-4 bg-gray-200 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2">Outcome</button>
+                    </div>
                     <div className="mt-4 flex justify-center">
                       <button
                         type="submit"
