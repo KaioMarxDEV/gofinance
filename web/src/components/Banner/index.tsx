@@ -4,7 +4,7 @@ export function Banner() {
   return (
     <div className="w-full">
       <div className="relative -top-20 max-w-6xl px-6 mx-auto flex flex-row items-center justify-between">
-        <div className="bg-gray-800 flex flex-col justify-between transition-all ease-in delay-75 duration-200 hover:-translate-y-1 border-2 border-green-500 h-36 p-6 rounded-lg w-full">
+        <div className="bg-gray-800 flex flex-col justify-between transition-all ease-in delay-75 duration-200 hover:scale-105 border-2 border-green-500 h-36 p-6 rounded-lg w-full">
           <header className="flex flex-row justify-between items-center">
             <span className="text-bold text-base">Deposits</span>
             <div className="flex flex-row">
@@ -16,7 +16,7 @@ export function Banner() {
             <span className="text-3xl">R$ 15.000,00</span>
           </div>
         </div>
-        <div className="bg-gray-800 flex flex-col justify-between transition-all ease-in delay-75 duration-200 hover:-translate-y-1 border-2 border-red-500 h-36 p-6 rounded-lg mx-8 w-full">
+        <div className="bg-gray-800 flex flex-col justify-between transition-all ease-in delay-75 duration-200 hover:scale-105 border-2 border-red-500 h-36 p-6 rounded-lg mx-8 w-full">
           <header className="flex flex-row justify-between items-center">
             <span className="text-bold text-base">Withdraws</span>
             <div className="flex flex-row">
@@ -28,7 +28,7 @@ export function Banner() {
             <span className="text-3xl">-R$ 1.000,00</span>
           </div>
         </div>
-        <div className="bg-gradient-to-b from-[#543ab7] to-[#00acc1] flex flex-col justify-between transition-all ease-in delay-75 duration-200 hover:-translate-y-1  h-36 p-6 rounded-lg w-full">
+        <div className="bg-gradient-to-b from-[#543ab7] to-[#00acc1] flex flex-col justify-between transition-all ease-in delay-75 duration-200 hover:scale-105  h-36 p-6 rounded-lg w-full">
           <div className="flex flex-row justify-between items-center">
             <span>TOTAL</span>
             <Bank size={28} />
