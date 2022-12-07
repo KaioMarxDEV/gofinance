@@ -28,7 +28,7 @@ func ConnectDB() bool {
 	}
 
 	fmt.Println("Connection opened to Database")
-	DB.AutoMigrate(&models.User{}) // migrate the models to database creating tables automatically
+	DB.AutoMigrate(&models.User{}, &models.Transaction{}) // migrate the models to database creating tables automatically
 	fmt.Println("Auto migration finished")
 	return true
 }
