@@ -37,7 +37,6 @@ func All(c *fiber.Ctx) error {
 		Data:    transactions,
 		Message: "all transactions",
 	})
-
 }
 func Add(c *fiber.Ctx) error {
 	return c.SendStatus(200)
