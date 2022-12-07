@@ -1,5 +1,6 @@
 .vscode
 node_modules
+go.sum
 gofinance.env
 *.exe
 dist

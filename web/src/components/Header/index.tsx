@@ -1,7 +1,14 @@
 import { Dialog, Transition } from "@headlessui/react";
 import * as RadioGroup from '@radix-ui/react-radio-group';
-import { ArrowDown, ArrowUp, ChartPie, CurrencyDollarSimple, XCircle } from "phosphor-react";
-import { Fragment, useState } from "react";
+import axios from "axios";
+import { ArrowDown, ArrowUp, CurrencyDollarSimple, XCircle } from "phosphor-react";
+import { FormEvent, Fragment, useState } from "react";
+
+interface ResponseDTO {
+  success: boolean;
+  message: string;
+  data: string;
+}
 
 export function Header() {
   let [isOpen, setIsOpen] = useState(false)
@@ -14,9 +21,18 @@ export function Header() {
     setIsOpen(true)
   }
 
-  function handleSubmit(e: { preventDefault: () => void }) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    console.log("entrei")
+    const response = await axios.post("http://localhost:3000/api/v1/transaction/add", {})
+
+    const {success, message} = response.data as ResponseDTO
+
+    if (success == true) {
+      // TODO: add context here to reflect new data on transactions component
+      closeModal()
+    } else {
+      throw new Error(message)
+    }
   }
 
   return (
@@ -34,17 +50,6 @@ export function Header() {
             </h1>
           </div>
           <div className="flex items-center">
-            <nav className=" flex flex-row mr-8 gap-4 px-4 py-2 rounded-md bg-gray-800">
-              <button
-                type="button"
-                className="flex flex-col items-center text-base text-green-500/80 hover:text-green-400 rounded-md cursor-pointer transition-all ease-in delay-75 duration-200 hover:translate-y-1"
-                // TODO: create charts page and route to there!
-                onClick={() => alert("go to page charts mf!")}
-              >
-                <ChartPie size={28} />
-                charts
-              </button>
-            </nav>
             <button
               type="button"
               onClick={openModal}
@@ -107,7 +112,7 @@ export function Header() {
                   </div>
 
                   {/* New transaction form */}
-                  <form className="mt-4 flex flex-col justify-center">
+                  <form onSubmit={handleSubmit} className="mt-4 flex flex-col justify-center">
                     <input
                       className="inline-flex text-gray-900 bg-gray-200 p-4 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
                       placeholder="Description"
@@ -131,18 +136,17 @@ export function Header() {
                         Income
                         <ArrowUp size={16} />
                         <CurrencyDollarSimple size={16} />
-                      </RadioGroup.Item> 
+                      </RadioGroup.Item>
                       <RadioGroup.Item value="outcome" className="aria-checked:text-white gap-1 flex-1 flex items-center flex-row justify-center p-4 text-gray-900 aria-checked:bg-red-500 hover:bg-gray-300 bg-gray-200 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2">
                         Outcome
                         <ArrowDown size={16} />
                         <CurrencyDollarSimple size={16} />
-                      </RadioGroup.Item>                    
+                      </RadioGroup.Item>
                     </RadioGroup.Root>
                     <div className="mt-4 flex justify-center">
                       <button
                         type="submit"
                         className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-8 py-5 text-sm font-medium text-gray-900 hover:text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
-                        onClick={handleSubmit}
                       >
                         Submit Transaction
                       </button>

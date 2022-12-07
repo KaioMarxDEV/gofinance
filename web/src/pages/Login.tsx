@@ -1,5 +1,38 @@
+import axios from "axios";
+import { FormEvent, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+interface ResponseDTO {
+  success: boolean;
+  data: string;
+  message: string
+}
+
 export function Login() {
-  // TODO: missing functionallity, call to API, type correction
+  const navFunction = useNavigate()
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    try {
+      e.preventDefault()
+      const response = await axios.post("http://localhost:3000/api/v1/login", {
+        email,
+        password
+      })
+
+      const {data: TokenString, success, message } = response.data as ResponseDTO
+      if (success === true) {
+        localStorage.setItem("@gofinanceTokenString", TokenString)
+        navFunction("/home")
+      } else {
+        throw new Error(message)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <main className="relative flex flex-col h-screen text-center bg-gradient-to-r from-[#543ab7] to-[#00acc1]">
       {/* Login Content */}
@@ -12,13 +45,16 @@ export function Login() {
                 $
               </span>
             </h1>
-            <form>
+            <form onSubmit={handleSubmit}>
               {/* <!-- Email input --> */}
               <div className="mb-6">
                 <input
                   type="text"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-green-500 focus:outline-none"
                   placeholder="Email address"
+                  required
                 />
               </div>
 
@@ -26,21 +62,40 @@ export function Login() {
               <div className="mb-6">
                 <input
                   type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-green-500 focus:outline-none"
                   placeholder="Password"
+                  required
                 />
               </div>
               {/* <!-- Submit button --> */}
               <button
                 type="submit"
-                className="inline-block px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-full"
+                className="inline-block px-7 py-3 bg-green-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-green-700 hover:shadow-lg focus:bg-green-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out w-full"
                 data-mdb-ripple="true"
                 data-mdb-ripple-color="light"
               >
-                Sign in
+                Sign up
               </button>
 
             </form>
+            <div className="flex items-center py-4">
+                <div className="flex-grow h-px bg-white"></div>
+
+                <span className="flex-shrink text-lg text-gray-100 px-6 font-light">OR</span>
+
+                <div className="flex-grow h-px bg-white"></div>
+            </div>
+            <Link to="/register">
+              <button
+                className="inline-block px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-800 active:shadow-lg transition duration-150 ease-in-out w-full"
+                data-mdb-ripple="true"
+                data-mdb-ripple-color="light"
+              >
+                Sign up new account
+              </button>
+            </Link>
           </div>
         </div>
       </div>
@@ -48,7 +103,7 @@ export function Login() {
       {/* Bottom waves */}
       <div>
         <svg className="relative w-full -mb-2 min-h-[100px] max-h-36" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
-        viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        viewBox="0 24 150 28" preserveAspectRatio="none" shapeRendering="auto">
         <defs>
           <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
         </defs>
