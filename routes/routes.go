@@ -21,7 +21,7 @@ func SetUpRoutes(app *fiber.App) {
 
 	transactionGroup := api.Group("/transaction")
 	transactionGroup.Post("/add", transaction.Add)
-	transactionGroup.Post("/all", transaction.All)
+	transactionGroup.Get("/all", transaction.All)
 }
 
 // ping method
