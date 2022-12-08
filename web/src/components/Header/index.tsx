@@ -18,14 +18,20 @@ interface Token {
 }
 
 export function Header() {
+  const [userID, setUserID] = useState("")
   const [username, setUsername] = useState("")
+
+  const [description, setDescription] = useState("")
+  const [number, setNumber] = useState(0)
+  const [category, setCategory] = useState("")
   let [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
     async function loadUserStoragedData() {
       const token = localStorage.getItem("@gofinanceTokenString") as string
-      const { username } = jwt_decode(token) as Token
+      const { username, user_id } = jwt_decode(token) as Token
       setUsername(username)
+      setUserID(user_id)
     }
 
     loadUserStoragedData()
@@ -41,7 +47,15 @@ export function Header() {
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    const response = await axios.post("http://localhost:3000/api/v1/transaction/add", {})
+    const response = await axios.post(
+      "http://localhost:3000/api/v1/transaction/add",
+      {
+
+      },
+      {
+
+      }
+    )
 
     const {success, message} = response.data as ResponseDTO
 
@@ -143,18 +157,22 @@ export function Header() {
                       className="inline-flex text-gray-900 bg-gray-200 p-4 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
                       placeholder="Description"
                       type="text"
+                      onChange={(e) => setDescription(e.target.value)}
                       required
                     />
                     <input
                       className="inline-flex mt-4 text-gray-900 bg-gray-200 p-4 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
                       placeholder="Number"
                       type="number"
+                      onChange={(e) => setNumber(e.target.valueAsNumber)}
                       required
                     />
                     <input
                       className="inline-flex mt-4 text-gray-900 bg-gray-200 p-4 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
                       placeholder="Category"
                       type="text"
+                      // TODO: start here
+                      onChange={(e) => setCategory(e.target.value)}
                       required
                     />
                     <RadioGroup.Root className="mt-4 gap-4 inline-flex">
