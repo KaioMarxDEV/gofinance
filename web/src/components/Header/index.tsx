@@ -1,8 +1,9 @@
 import { Dialog, Transition } from "@headlessui/react";
 import * as RadioGroup from '@radix-ui/react-radio-group';
 import axios from "axios";
-import { ArrowDown, ArrowUp, CurrencyDollarSimple, XCircle } from "phosphor-react";
-import { FormEvent, Fragment, useState } from "react";
+import jwt_decode from 'jwt-decode';
+import { ArrowDown, ArrowUp, CurrencyDollarSimple, User, XCircle } from "phosphor-react";
+import { FormEvent, Fragment, useEffect, useState } from "react";
 
 interface ResponseDTO {
   success: boolean;
@@ -10,8 +11,25 @@ interface ResponseDTO {
   data: string;
 }
 
+interface Token {
+  exp: number;
+  user_id: string;
+  username: string;
+}
+
 export function Header() {
+  const [username, setUsername] = useState("")
   let [isOpen, setIsOpen] = useState(false)
+
+  useEffect(() => {
+    async function loadUserStoragedData() {
+      const token = localStorage.getItem("@gofinanceTokenString") as string
+      const { username } = jwt_decode(token) as Token
+      setUsername(username)
+    }
+
+    loadUserStoragedData()
+  }, [])
 
   function closeModal() {
     setIsOpen(false)
@@ -50,6 +68,14 @@ export function Header() {
             </h1>
           </div>
           <div className="flex items-center">
+            <div className="mr-14">
+              <div className="flex flex-col items-center">
+                <User size={28}/>
+                <span className="text-lg font-semibold">
+                  {username}
+                </span>
+              </div>
+            </div>
             <button
               type="button"
               onClick={openModal}
