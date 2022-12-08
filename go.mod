@@ -2,7 +2,6 @@ module github.com/KaioMarxDEV/gofinance
 
 go 1.19
 
-
 require (
 	github.com/bytedance/sonic v1.5.0
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
