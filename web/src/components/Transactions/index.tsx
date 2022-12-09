@@ -1,26 +1,9 @@
-import axios from "axios";
 import { Binoculars } from "phosphor-react";
-import { useEffect, useState } from "react";
-
-interface Transaction {
-  description: string;
-  number: number;
-  category: string;
-  type: 'income' | 'outcome';
-}
+import { useContext } from "react";
+import { TransactionContext } from "../../contexts/TransactionsContext";
 
 export function Transactions() {
-  const [transactions, setTransactions] = useState<Transaction[]>([])
-
-  async function loadTransactions() {
-    const {data} = await axios.get("http://localhost:3000/api/v1/transaction/all")
-
-    setTransactions(data)
-  }
-
-  useEffect(() => {
-    loadTransactions()
-  }, [])
+  const {transactions} = useContext(TransactionContext)
 
   return (
     <div className="w-full max-w-6xl mt-8 mx-auto px-5">
