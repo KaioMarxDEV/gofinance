@@ -21,6 +21,7 @@ export function Login() {
         password
       })
 
+      // TODO: use json() to transform in json
       const {data: TokenString, success, message } = response.data as ResponseDTO
       if (success === true) {
         localStorage.setItem("@gofinanceTokenString", TokenString)
