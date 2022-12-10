@@ -1,30 +1,28 @@
 import { ArrowDown, ArrowUp, Bank, CurrencyDollar } from "phosphor-react";
-import { useContext, useEffect, useState } from "react";
-import { Transaction, TransactionContext } from "../../contexts/TransactionsContext";
+import { useContext } from "react";
+import { TransactionContext } from "../../contexts/TransactionsContext";
 
 export function Banner() {
   const { transactions } = useContext(TransactionContext)
-  let [income, setIncome] = useState(0)
-  let [outcome, setOutcome] = useState(0)
-  let [total, setTotal] = useState(0)
 
-  function sortTransactionsByType(arr: Transaction[]) {
-    arr.map(transaction => {
+  const banner = transactions.reduce(
+    (acc, transaction) => {
       if (transaction.type === 'income') {
-        income += transaction.number
-        setIncome(income)
+        acc.income += transaction.number
+        acc.total += transaction.number
       } else {
-        outcome += transaction.number
-        setOutcome(outcome)
+        acc.outcome += transaction.number
+        acc.total -= transaction.number
       }
-      total = income - outcome
-      setTotal(total)
-    })
-  }
 
-  useEffect(() => {
-    sortTransactionsByType(transactions)
-  }, [])
+      return acc
+    },
+    {
+      income: 0,
+      outcome: 0,
+      total: 0,
+    }
+  )
 
   return (
     <div className="w-full">
@@ -38,7 +36,7 @@ export function Banner() {
             </div>
           </header>
           <div>
-            <span className="text-3xl">R$ {income}</span>
+            <span className="text-3xl">R$ {banner.income}</span>
           </div>
         </div>
         <div className="bg-gray-800 flex flex-col justify-between transition-all ease-in delay-75 duration-200 hover:scale-105 border-2 border-red-500 h-36 p-6 rounded-lg mx-8 w-full">
@@ -50,7 +48,7 @@ export function Banner() {
             </div>
           </header>
           <div>
-            <span className="text-3xl">-R$ {outcome}</span>
+            <span className="text-3xl">-R$ {banner.outcome}</span>
           </div>
         </div>
         <div className="bg-gradient-to-b from-[#543ab7] to-[#00acc1] flex flex-col justify-between transition-all ease-in delay-75 duration-200 hover:scale-105  h-36 p-6 rounded-lg w-full">
@@ -59,7 +57,7 @@ export function Banner() {
             <Bank size={28} />
           </div>
           <div>
-            <span className="text-3xl">R$ {total}</span>
+            <span className="text-3xl">R$ {banner.total}</span>
           </div>
         </div>
       </div>
