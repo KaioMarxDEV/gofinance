@@ -1,29 +1,28 @@
 import { ArrowDown, ArrowUp, Bank, CurrencyDollar } from "phosphor-react";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { TransactionContext } from "../../contexts/TransactionsContext";
 import { priceFormatter } from "../../utils/formatter";
 
 export function Banner() {
   const { transactions } = useContext(TransactionContext)
+  let income = 0, outcome = 0, total = 0
 
-  const banner = transactions.reduce(
-    (acc, transaction) => {
+  function loadTransactions() {
+    transactions.map(transaction => {
       if (transaction.type === 'income') {
-        acc.income += transaction.number
-        acc.total += transaction.number
+        income += transaction.number
+        total += transaction.number
       } else {
-        acc.outcome += transaction.number
-        acc.total -= transaction.number
+        outcome += transaction.number
+        total -= transaction.number
       }
+    })
+  }
 
-      return acc
-    },
-    {
-      income: 0,
-      outcome: 0,
-      total: 0,
-    }
-  )
+  useEffect(() => {
+    loadTransactions()
+  }, [])
+
 
   return (
     <div className="w-full">
@@ -37,7 +36,7 @@ export function Banner() {
             </div>
           </header>
           <div>
-            <span className="text-3xl">R$ {priceFormatter.format(banner.income)}</span>
+            <span className="text-3xl">{priceFormatter.format(income)}</span>
           </div>
         </div>
         <div className="bg-gray-800 flex flex-col justify-between transition-all ease-in delay-75 duration-200 hover:scale-105 border-2 border-red-500 h-36 p-6 rounded-lg mx-8 w-full">
@@ -49,7 +48,7 @@ export function Banner() {
             </div>
           </header>
           <div>
-            <span className="text-3xl">-R$ {priceFormatter.format(banner.outcome)}</span>
+            <span className="text-3xl">-{priceFormatter.format(outcome)}</span>
           </div>
         </div>
         <div className="bg-gradient-to-b from-[#543ab7] to-[#00acc1] flex flex-col justify-between transition-all ease-in delay-75 duration-200 hover:scale-105  h-36 p-6 rounded-lg w-full">
@@ -58,7 +57,7 @@ export function Banner() {
             <Bank size={28} />
           </div>
           <div>
-            <span className="text-3xl">R$ {priceFormatter.format(banner.total)}</span>
+            <span className="text-3xl">{priceFormatter.format(total)}</span>
           </div>
         </div>
       </div>

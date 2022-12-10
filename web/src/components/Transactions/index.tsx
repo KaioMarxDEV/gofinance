@@ -1,7 +1,6 @@
 import { Binoculars } from "phosphor-react";
 import { useContext } from "react";
 import { TransactionContext } from "../../contexts/TransactionsContext";
-import { dataFormatter } from "../../utils/formatter";
 
 export function Transactions() {
   const {transactions} = useContext(TransactionContext)
@@ -16,7 +15,6 @@ export function Transactions() {
               <td className="w-1/2">{transaction.description}</td>
               <td className={transaction.type === 'income' ? 'text-green-300': 'text-rose-200'}>${transaction.number}</td>
               <td>{transaction.category}</td>
-              <td>{dataFormatter.format(transaction.createdAt)}</td>
             </tr>
           ))}
         </tbody>
