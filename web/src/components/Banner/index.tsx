@@ -1,6 +1,7 @@
 import { ArrowDown, ArrowUp, Bank, CurrencyDollar } from "phosphor-react";
 import { useContext } from "react";
 import { TransactionContext } from "../../contexts/TransactionsContext";
+import { priceFormatter } from "../../utils/formatter";
 
 export function Banner() {
   const { transactions } = useContext(TransactionContext)
@@ -36,7 +37,7 @@ export function Banner() {
             </div>
           </header>
           <div>
-            <span className="text-3xl">R$ {banner.income}</span>
+            <span className="text-3xl">R$ {priceFormatter.format(banner.income)}</span>
           </div>
         </div>
         <div className="bg-gray-800 flex flex-col justify-between transition-all ease-in delay-75 duration-200 hover:scale-105 border-2 border-red-500 h-36 p-6 rounded-lg mx-8 w-full">
@@ -48,7 +49,7 @@ export function Banner() {
             </div>
           </header>
           <div>
-            <span className="text-3xl">-R$ {banner.outcome}</span>
+            <span className="text-3xl">-R$ {priceFormatter.format(banner.outcome)}</span>
           </div>
         </div>
         <div className="bg-gradient-to-b from-[#543ab7] to-[#00acc1] flex flex-col justify-between transition-all ease-in delay-75 duration-200 hover:scale-105  h-36 p-6 rounded-lg w-full">
@@ -57,7 +58,7 @@ export function Banner() {
             <Bank size={28} />
           </div>
           <div>
-            <span className="text-3xl">R$ {banner.total}</span>
+            <span className="text-3xl">R$ {priceFormatter.format(banner.total)}</span>
           </div>
         </div>
       </div>
