@@ -47,6 +47,7 @@ export function Header() {
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    // TODO: create query add transaction to database passing userID
     const response = await axios.post(
       "http://localhost:3000/api/v1/transaction/add",
       {
