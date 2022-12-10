@@ -5,17 +5,9 @@ import (
 	"github.com/KaioMarxDEV/gofinance/models"
 	"github.com/KaioMarxDEV/gofinance/types"
 	"github.com/gofiber/fiber/v2"
-	"github.com/google/uuid"
 )
 
 func All(c *fiber.Ctx) error {
-	type Transaction struct {
-		ID          uuid.UUID
-		Description string `json:"description"`
-		Number      int    `json:"number"`
-		Category    string `json:"category"`
-		Type        string `json:"type"`
-	}
 	var (
 		db           = database.DB
 		transactions []models.Transaction
@@ -40,15 +32,9 @@ func All(c *fiber.Ctx) error {
 }
 
 func Add(c *fiber.Ctx) error {
-	type TransactionInput struct {
-		Description string `json:"description"`
-		Number      int    `json:"number"`
-		Category    string `json:"category"`
-		Type        string `json:"type"`
-	}
 	var (
 		db          = database.DB
-		transaction TransactionInput
+		transaction models.Transaction
 		err         error
 	)
 

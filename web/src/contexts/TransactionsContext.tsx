@@ -1,11 +1,14 @@
 import axios from "axios";
 import { createContext, ReactNode, useEffect, useState } from "react";
 
+// TODO: add created at column
+
 export interface Transaction {
   description: string;
   number: number;
   category: string;
   type: 'income' | 'outcome';
+  createdAt: Date;
 }
 
 interface TransactionContextType {

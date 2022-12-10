@@ -10,7 +10,7 @@ import (
 // can be used as standard for all structs that need the same default columns like ID as uuid
 type Base struct {
 	ID        uuid.UUID `gorm:"primary_key; unique; type:uuid; default:gen_random_uuid()"`
-	CreatedAt time.Time
+	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time
 	DeletedAt *time.Time `sql:"index"`
 }
