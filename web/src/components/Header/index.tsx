@@ -8,7 +8,12 @@ import { FormEvent, Fragment, useEffect, useState } from "react";
 interface ResponseDTO {
   success: boolean;
   message: string;
-  data: string;
+  data: {
+    description: string;
+    number: number;
+    category: string;
+    type: 'income' | 'outcome';
+  };
 }
 
 interface Token {
@@ -47,18 +52,27 @@ export function Header() {
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    const token = localStorage.getItem("@gofinanceTokenString")
+    const authHeader = `Authentication: Bearer ${token}`
+
     // TODO: create query add transaction to database passing userID
     const response = await axios.post(
       "http://localhost:3000/api/v1/transaction/add",
       {
-
+        description,
+        category,
+        number,
+        // TODO: add type from radio item
+        userID
       },
       {
-
+        headers: {
+          authHeader
+        }
       }
     )
 
-    const {success, message} = response.data as ResponseDTO
+    const {success, message, data} = response.data as ResponseDTO
 
     if (success == true) {
       // TODO: add context here to reflect new data on transactions component
