@@ -1,7 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { MagnifyingGlass } from "phosphor-react";
+import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
+import { TransactionContext } from '../../contexts/TransactionsContext';
 
 const searchFormSchema = z.object({
   query: z.string(),
@@ -10,6 +12,13 @@ const searchFormSchema = z.object({
 type SearchFormInputs = z.infer<typeof searchFormSchema>
 
 export function SearchBar() {
+  const {transactions} = useContext(TransactionContext)
+  const [disableStatus, setDisableStatus] = useState(false)
+
+  useEffect(() => {
+    transactions.length > 0 ? setDisableStatus(false) : setDisableStatus(true)
+  }, [transactions])
+
   const { register, handleSubmit } = useForm<SearchFormInputs>({
     resolver: zodResolver(searchFormSchema)
   })
@@ -24,9 +33,10 @@ export function SearchBar() {
       onSubmit={handleSubmit(handleSearchFormSubmit)}
     >
       <input
-        className="flex-1 transition-all delay-100 duration-300 mr-4 bg-gray-800 p-4 rounded-md focus:shadow-lg focus:shadow-green-400 outline-none ring-0"
+        className="disabled:cursor-not-allowed flex-1 transition-all delay-100 duration-300 mr-4 bg-gray-800 p-4 rounded-md focus:shadow-lg focus:shadow-green-400 outline-none ring-0"
         placeholder="Search by transaction name..."
         {...register('query')}
+        disabled={disableStatus}
       />
       <div>
         <button
