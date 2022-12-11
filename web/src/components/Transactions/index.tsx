@@ -6,7 +6,7 @@ export function Transactions() {
   const {transactions} = useContext(TransactionContext)
 
   return (
-    <div className="w-full max-w-6xl mt-8 mx-auto px-5">
+    <div className="w-full max-w-6xl mt-8 mb-8 mx-auto px-5">
       {transactions.length > 0 ? (
         <table className="w-full">
         <tbody className="flex flex-col gap-3">
