@@ -1,20 +1,24 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as RadioGroup from '@radix-ui/react-radio-group';
+import axios from "axios";
 import jwt_decode from 'jwt-decode';
 import { ArrowDown, ArrowUp, CurrencyDollarSimple, SpinnerGap, User, XCircle } from "phosphor-react";
-import { Fragment, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Fragment, useContext, useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import * as z from 'zod';
+import { TransactionContext } from "../../contexts/TransactionsContext";
 
 interface ResponseDTO {
   success: boolean;
   message: string;
   data: {
+    ID: string;
+    category: string;
     description: string;
     number: number;
-    category: string;
-    type: 'income' | 'outcome';
+    type: 'income' | 'outcome'
+    createdAt: Date
   };
 }
 
@@ -28,19 +32,21 @@ const newModalTransactionSchema = z.object({
   description: z.string(),
   number: z.number(),
   category: z.string(),
-  // type: z.enum(['income', 'outcome'])
+  type: z.enum(['income', 'outcome'])
 })
 
 type newModalTransactionsInputs = z.infer<typeof newModalTransactionSchema>
 
 export function Header() {
+  const { update } = useContext(TransactionContext)
+
   const [username, setUsername] = useState("")
   let [isOpen, setIsOpen] = useState(false)
 
-  const token = localStorage.getItem("@gofinanceTokenString") as string
 
   useEffect(() => {
     async function loadUserStoragedData() {
+      const token = localStorage.getItem("@gofinanceTokenString") as string
       const { username } = jwt_decode(token) as Token
       setUsername(username)
     }
@@ -60,35 +66,33 @@ export function Header() {
     register,
     handleSubmit,
     formState: {
-      isSubmitting
-    }
+      isSubmitting,
+    },
+    control
   } = useForm<newModalTransactionsInputs>({
     resolver: zodResolver(newModalTransactionSchema)
   })
 
-  async function handleNewTransactionModal(data: newModalTransactionsInputs) {
-    await new Promise(resolver => setInterval(resolver, 2000))
-    console.log(data)
-    // const authHeader = `Authentication: Bearer ${token}`
+  async function handleNewTransactionModal(inputData: newModalTransactionsInputs) {
+    const token = localStorage.getItem("@gofinanceTokenString") as string
 
-    // const response = await axios.post(
-    //   "http://localhost:3000/api/v1/transaction/add",
-    //   data,
-    //   {
-    //     headers: {
-    //       authHeader
-    //     }
-    //   }
-    // )
+    const response = await axios.post(
+      "http://localhost:3000/api/v1/transaction/add",
+      inputData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
 
-    // const {success, message} = response.data as ResponseDTO
-
-    // if (success == true) {
-    //   // TODO: add context here to reflect new data on transactions component
-    //   closeModal()
-    // } else {
-    //   throw new Error(message)
-    // }
+    const {success, message, data} = response.data as ResponseDTO
+    if (success == true) {
+      update(data)
+      closeModal()
+    } else {
+      throw new Error(message)
+    }
   }
 
   return (
@@ -198,22 +202,33 @@ export function Header() {
                       required
                       {...register('category')}
                     />
-                    <RadioGroup.Root className="mt-4 gap-4 inline-flex">
-                      <RadioGroup.Item value="income" className="gap-1 flex-1 flex items-center flex-row justify-center p-4 aria-checked:bg-green-500 hover:bg-gray-300 bg-gray-200 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 transition-all delay-75 duration-300">
-                        <span className="text-gray-900">
-                          Income
-                        </span>
-                        <ArrowUp className="text-gray-900" size={16} />
-                        <CurrencyDollarSimple className="text-gray-900" size={16} />
-                      </RadioGroup.Item>
-                      <RadioGroup.Item value="outcome" className="gap-1 flex-1 flex items-center flex-row justify-center p-4 aria-checked:bg-red-500 hover:bg-gray-300 bg-gray-200 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 transition-all delay-75 duration-300">
-                        <span className="text-gray-900">
-                          Outcome
-                        </span>
-                        <ArrowDown className="text-gray-900" size={16} />
-                        <CurrencyDollarSimple className="text-gray-900" size={16} />
-                      </RadioGroup.Item>
-                    </RadioGroup.Root>
+
+
+                    <Controller
+                      control={control}
+                      name="type"
+                      render={({field}) => {
+                         return (
+                          <RadioGroup.Root onValueChange={field.onChange} value={field.value} className="mt-4 gap-4 inline-flex">
+                            <RadioGroup.Item value="income" className="gap-1 flex-1 flex items-center flex-row justify-center p-4 aria-checked:bg-green-500 hover:bg-gray-300 bg-gray-200 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 transition-all delay-75 duration-300">
+                              <span className="text-gray-900">
+                                Income
+                              </span>
+                              <ArrowUp className="text-gray-900" size={16} />
+                              <CurrencyDollarSimple className="text-gray-900" size={16} />
+                            </RadioGroup.Item>
+                            <RadioGroup.Item value="outcome" className="gap-1 flex-1 flex items-center flex-row justify-center p-4 aria-checked:bg-red-500 hover:bg-gray-300 bg-gray-200 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 transition-all delay-75 duration-300">
+                              <span className="text-gray-900">
+                                Outcome
+                              </span>
+                              <ArrowDown className="text-gray-900" size={16} />
+                              <CurrencyDollarSimple className="text-gray-900" size={16} />
+                            </RadioGroup.Item>
+                          </RadioGroup.Root>
+                        )
+                      }}
+                    />
+
                     <button
                       type="submit"
                       className="disabled:opacity-40 mt-4 inline-flex justify-center rounded-md border border-transparent bg-blue-600 mx-2 py-5 hover:scale-105 text-sm font-medium text-gray-100 hover:bg-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 transition-all ease-linear delay-75 duration-300"
