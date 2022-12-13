@@ -1,7 +1,7 @@
 import { Binoculars } from "phosphor-react";
 import { useContext } from "react";
 import { TransactionContext } from "../../contexts/TransactionsContext";
-import { priceFormatter } from "../../utils/formatter";
+import { dateFormatter, priceFormatter } from "../../utils/formatter";
 
 export function Transactions() {
   const {transactions} = useContext(TransactionContext)
@@ -13,8 +13,9 @@ export function Transactions() {
           <thead>
             <tr className="flex justify-between mb-3 px-8">
               <th className="w-1/2 flex flex-start">Descriptions</th>
-              <th className="">Amounts</th>
-              <th className="">Categories</th>
+              <th>Amounts</th>
+              <th>Categories</th>
+              <th>Dates</th>
             </tr>
           </thead>
           <tbody className="flex flex-col gap-3">
@@ -26,6 +27,7 @@ export function Transactions() {
                   {priceFormatter.format(transaction.number)}
                 </td>
                 <td>{transaction.category}</td>
+                <td>{dateFormatter.format(new Date(transaction.createdAt))}</td>
               </tr>
             ))}
           </tbody>

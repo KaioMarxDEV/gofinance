@@ -13,6 +13,7 @@ export interface Transaction {
   number: number;
   category: string;
   type: 'income' | 'outcome';
+  createdAt: string;
 }
 
 interface TransactionContextType {
