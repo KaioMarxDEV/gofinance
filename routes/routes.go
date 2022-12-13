@@ -9,7 +9,6 @@ import (
 
 func SetUpRoutes(app *fiber.App) {
 	api := app.Group("/api/v1")
-	api.Get("/", Hello)
 
 	auth := api.Group("/login")
 	auth.Post("/", middlewares.Login)
@@ -24,9 +23,4 @@ func SetUpRoutes(app *fiber.App) {
 	transactionGroup.Get("/all", middlewares.Authenticate, transaction.All)
 	transactionGroup.Delete("/delete/:id", middlewares.Authenticate, transaction.Delete)
 	transactionGroup.Get("/search", transaction.Search)
-}
-
-// ping method
-func Hello(c *fiber.Ctx) error {
-	return c.SendString("API up and running")
 }
