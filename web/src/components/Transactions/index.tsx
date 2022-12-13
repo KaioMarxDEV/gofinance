@@ -10,19 +10,26 @@ export function Transactions() {
     <div className="w-full max-w-6xl mt-8 mb-8 mx-auto px-5">
       {transactions.length > 0 ? (
         <table className="w-full">
-        <tbody className="flex flex-col gap-3">
-          {transactions.map(transaction => (
-            <tr key={transaction.ID} className="bg-gray-800 flex justify-between rounded-xl py-5 px-8">
-              <td className="w-1/2">{transaction.description}</td>
-              <td className={transaction.type === 'income' ? 'text-green-300': 'text-rose-200'}>
-                {transaction.type === 'outcome' && "-"}
-                {priceFormatter.format(transaction.number)}
-              </td>
-              <td>{transaction.category}</td>
+          <thead>
+            <tr className="flex justify-between mb-3 px-8">
+              <th className="w-1/2 flex flex-start">Descriptions</th>
+              <th className="">Amounts</th>
+              <th className="">Categories</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className="flex flex-col gap-3">
+            {transactions.map(transaction => (
+              <tr key={transaction.ID} className="bg-gray-800 flex justify-between rounded-xl py-5 px-8">
+                <td className="w-1/2">{transaction.description}</td>
+                <td className={transaction.type === 'income' ? 'text-green-300': 'text-rose-200'}>
+                  {transaction.type === 'outcome' && "-"}
+                  {priceFormatter.format(transaction.number)}
+                </td>
+                <td>{transaction.category}</td>
+              </tr>
+            ))}
+          </tbody>
+       </table>
       ) : (
         <div className="w-full">
           <div className="flex flex-col bg-gray-800 shadow-green-400 shadow-lg py-6 rounded-md items-center">
