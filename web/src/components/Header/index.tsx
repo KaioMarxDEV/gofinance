@@ -1,9 +1,11 @@
 import { Dialog, Transition } from "@headlessui/react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import * as RadioGroup from '@radix-ui/react-radio-group';
-import axios from "axios";
 import jwt_decode from 'jwt-decode';
 import { ArrowDown, ArrowUp, CurrencyDollarSimple, User, XCircle } from "phosphor-react";
-import { FormEvent, Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from 'zod';
 
 interface ResponseDTO {
   success: boolean;
@@ -22,21 +24,25 @@ interface Token {
   username: string;
 }
 
-export function Header() {
-  const [userID, setUserID] = useState("")
-  const [username, setUsername] = useState("")
+const newModalTransactionSchema = z.object({
+  description: z.string(),
+  number: z.number(),
+  category: z.string(),
+  // type: z.enum(['income', 'outcome'])
+})
 
-  const [description, setDescription] = useState("")
-  const [number, setNumber] = useState(0)
-  const [category, setCategory] = useState("")
+type newModalTransactionsInputs = z.infer<typeof newModalTransactionSchema>
+
+export function Header() {
+  const [username, setUsername] = useState("")
   let [isOpen, setIsOpen] = useState(false)
+
+  const token = localStorage.getItem("@gofinanceTokenString") as string
 
   useEffect(() => {
     async function loadUserStoragedData() {
-      const token = localStorage.getItem("@gofinanceTokenString") as string
-      const { username, user_id } = jwt_decode(token) as Token
+      const { username } = jwt_decode(token) as Token
       setUsername(username)
-      setUserID(user_id)
     }
 
     loadUserStoragedData()
@@ -50,36 +56,39 @@ export function Header() {
     setIsOpen(true)
   }
 
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-    const token = localStorage.getItem("@gofinanceTokenString")
-    const authHeader = `Authentication: Bearer ${token}`
-
-    // TODO: create query add transaction to database passing userID
-    const response = await axios.post(
-      "http://localhost:3000/api/v1/transaction/add",
-      {
-        description,
-        category,
-        number,
-        // TODO: add type from radio item
-        userID
-      },
-      {
-        headers: {
-          authHeader
-        }
-      }
-    )
-
-    const {success, message, data} = response.data as ResponseDTO
-
-    if (success == true) {
-      // TODO: add context here to reflect new data on transactions component
-      closeModal()
-    } else {
-      throw new Error(message)
+  const {
+    register,
+    handleSubmit,
+    formState: {
+      isSubmitting
     }
+  } = useForm<newModalTransactionsInputs>({
+    resolver: zodResolver(newModalTransactionSchema)
+  })
+
+  async function handleNewTransactionModal(data: newModalTransactionsInputs) {
+    await new Promise(resolver => setInterval(resolver, 2000))
+    console.log(data)
+    // const authHeader = `Authentication: Bearer ${token}`
+
+    // const response = await axios.post(
+    //   "http://localhost:3000/api/v1/transaction/add",
+    //   data,
+    //   {
+    //     headers: {
+    //       authHeader
+    //     }
+    //   }
+    // )
+
+    // const {success, message} = response.data as ResponseDTO
+
+    // if (success == true) {
+    //   // TODO: add context here to reflect new data on transactions component
+    //   closeModal()
+    // } else {
+    //   throw new Error(message)
+    // }
   }
 
   return (
@@ -146,7 +155,7 @@ export function Header() {
                   <div>
                     <div className="flex-1 flex flex-row justify-end">
                       <button
-                        className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-2 py-1 text-red-500 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
+                        className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-2 py-1 text-red-500 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 transition-all delay-75 duration-300"
                         onClick={closeModal}
                       >
                         <XCircle size={32}/>
@@ -167,49 +176,47 @@ export function Header() {
                   </div>
 
                   {/* New transaction form */}
-                  <form onSubmit={handleSubmit} className="mt-4 flex flex-col justify-center">
+                  <form onSubmit={handleSubmit(handleNewTransactionModal)} className="mt-4 flex flex-col justify-center">
                     <input
                       className="inline-flex text-gray-900 bg-gray-200 p-4 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
                       placeholder="Description"
                       type="text"
-                      onChange={(e) => setDescription(e.target.value)}
                       required
+                      {...register('description')}
                     />
                     <input
                       className="inline-flex mt-4 text-gray-900 bg-gray-200 p-4 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
                       placeholder="Number"
                       type="number"
-                      onChange={(e) => setNumber(e.target.valueAsNumber)}
                       required
+                      {...register('number', { valueAsNumber: true })}
                     />
                     <input
                       className="inline-flex mt-4 text-gray-900 bg-gray-200 p-4 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
                       placeholder="Category"
                       type="text"
-                      // TODO: start here
-                      onChange={(e) => setCategory(e.target.value)}
                       required
+                      {...register('category')}
                     />
                     <RadioGroup.Root className="mt-4 gap-4 inline-flex">
-                      <RadioGroup.Item value="income" className="aria-checked:text-white gap-1 flex-1 flex items-center flex-row justify-center p-4 text-gray-900 aria-checked:bg-green-500 hover:bg-gray-300 bg-gray-200 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2">
+                      <RadioGroup.Item value="income" className="aria-checked:text-white gap-1 flex-1 flex items-center flex-row justify-center p-4 text-gray-900 aria-checked:bg-green-500 hover:bg-gray-300 bg-gray-200 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 transition-all delay-75 duration-300">
                         Income
                         <ArrowUp size={16} />
                         <CurrencyDollarSimple size={16} />
                       </RadioGroup.Item>
-                      <RadioGroup.Item value="outcome" className="aria-checked:text-white gap-1 flex-1 flex items-center flex-row justify-center p-4 text-gray-900 aria-checked:bg-red-500 hover:bg-gray-300 bg-gray-200 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2">
+                      <RadioGroup.Item value="outcome" className="aria-checked:text-white gap-1 flex-1 flex items-center flex-row justify-center p-4 text-gray-900 aria-checked:bg-red-500 hover:bg-gray-300 bg-gray-200 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 transition-all delay-75 duration-300">
                         Outcome
                         <ArrowDown size={16} />
                         <CurrencyDollarSimple size={16} />
                       </RadioGroup.Item>
                     </RadioGroup.Root>
-                    <div className="mt-4 flex justify-center">
-                      <button
-                        type="submit"
-                        className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-8 py-5 text-sm font-medium text-gray-900 hover:text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
-                      >
-                        Submit Transaction
-                      </button>
-                    </div>
+                    <button
+                      type="submit"
+                      className="mt-4 inline-flex justify-center rounded-md border border-transparent bg-green-100 px-8 py-5 text-sm font-medium text-gray-900 hover:text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 transition-all delay-75 duration-300"
+                      disabled={isSubmitting}
+                    >
+                      Submit Transaction
+                    </button>
                   </form>
                 </Dialog.Panel>
               </Transition.Child>
