@@ -117,3 +117,11 @@ func Delete(c *fiber.Ctx) error {
 		Data:    transaction.ID,
 	})
 }
+
+func Search(c *fiber.Ctx) error {
+	return c.Status(fiber.StatusOK).JSON(types.ResponseHTTP{
+		Success: true,
+		Message: "Searched successfully",
+		Data:    true,
+	})
+}

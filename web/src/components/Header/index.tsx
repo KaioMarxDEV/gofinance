@@ -65,6 +65,7 @@ export function Header() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: {
       isSubmitting,
     },
@@ -89,6 +90,7 @@ export function Header() {
     const {success, message, data} = response.data as ResponseDTO
     if (success == true) {
       update(data)
+      reset()
       closeModal()
     } else {
       throw new Error(message)
