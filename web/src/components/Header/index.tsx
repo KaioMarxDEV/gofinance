@@ -2,7 +2,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as RadioGroup from '@radix-ui/react-radio-group';
 import jwt_decode from 'jwt-decode';
-import { ArrowDown, ArrowUp, CurrencyDollarSimple, User, XCircle } from "phosphor-react";
+import { ArrowDown, ArrowUp, CurrencyDollarSimple, SpinnerGap, User, XCircle } from "phosphor-react";
 import { Fragment, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from 'zod';
@@ -178,44 +178,52 @@ export function Header() {
                   {/* New transaction form */}
                   <form onSubmit={handleSubmit(handleNewTransactionModal)} className="mt-4 flex flex-col justify-center">
                     <input
-                      className="inline-flex text-gray-900 bg-gray-200 p-4 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
+                      className="flex w-full text-gray-900 bg-gray-200 p-4 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
                       placeholder="Description"
                       type="text"
                       required
                       {...register('description')}
                     />
                     <input
-                      className="inline-flex mt-4 text-gray-900 bg-gray-200 p-4 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
+                      className="flex w-full mt-4 text-gray-900 bg-gray-200 p-4 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
                       placeholder="Number"
                       type="number"
                       required
                       {...register('number', { valueAsNumber: true })}
                     />
                     <input
-                      className="inline-flex mt-4 text-gray-900 bg-gray-200 p-4 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
+                      className="flex w-full mt-4 text-gray-900 bg-gray-200 p-4 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
                       placeholder="Category"
                       type="text"
                       required
                       {...register('category')}
                     />
                     <RadioGroup.Root className="mt-4 gap-4 inline-flex">
-                      <RadioGroup.Item value="income" className="aria-checked:text-white gap-1 flex-1 flex items-center flex-row justify-center p-4 text-gray-900 aria-checked:bg-green-500 hover:bg-gray-300 bg-gray-200 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 transition-all delay-75 duration-300">
-                        Income
-                        <ArrowUp size={16} />
-                        <CurrencyDollarSimple size={16} />
+                      <RadioGroup.Item value="income" className="gap-1 flex-1 flex items-center flex-row justify-center p-4 aria-checked:bg-green-500 hover:bg-gray-300 bg-gray-200 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 transition-all delay-75 duration-300">
+                        <span className="text-gray-900">
+                          Income
+                        </span>
+                        <ArrowUp className="text-gray-900" size={16} />
+                        <CurrencyDollarSimple className="text-gray-900" size={16} />
                       </RadioGroup.Item>
-                      <RadioGroup.Item value="outcome" className="aria-checked:text-white gap-1 flex-1 flex items-center flex-row justify-center p-4 text-gray-900 aria-checked:bg-red-500 hover:bg-gray-300 bg-gray-200 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 transition-all delay-75 duration-300">
-                        Outcome
-                        <ArrowDown size={16} />
-                        <CurrencyDollarSimple size={16} />
+                      <RadioGroup.Item value="outcome" className="gap-1 flex-1 flex items-center flex-row justify-center p-4 aria-checked:bg-red-500 hover:bg-gray-300 bg-gray-200 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 transition-all delay-75 duration-300">
+                        <span className="text-gray-900">
+                          Outcome
+                        </span>
+                        <ArrowDown className="text-gray-900" size={16} />
+                        <CurrencyDollarSimple className="text-gray-900" size={16} />
                       </RadioGroup.Item>
                     </RadioGroup.Root>
                     <button
                       type="submit"
-                      className="mt-4 inline-flex justify-center rounded-md border border-transparent bg-green-100 px-8 py-5 text-sm font-medium text-gray-900 hover:text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 transition-all delay-75 duration-300"
+                      className="disabled:opacity-40 mt-4 inline-flex justify-center rounded-md border border-transparent bg-blue-600 mx-2 py-5 hover:scale-105 text-sm font-medium text-gray-100 hover:bg-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2 transition-all ease-linear delay-75 duration-300"
                       disabled={isSubmitting}
                     >
-                      Submit Transaction
+                      {
+                        isSubmitting
+                        ? <SpinnerGap className="animate-spin" size={16} />
+                        : "Submit Transaction"
+                      }
                     </button>
                   </form>
                 </Dialog.Panel>
