@@ -19,6 +19,7 @@ export interface Transaction {
 interface TransactionContextType {
   transactions: Transaction[];
   update: (data: Transaction) => {};
+  remove: (ID: string) => {};
 }
 interface TransactionProviderProps {
   children: ReactNode;
@@ -33,12 +34,16 @@ export function TransactionProvider({ children }: TransactionProviderProps) {
   async function updateTransactions(data: Transaction) {
     setTransactions([...transactions, data])
   }
+  async function removeTransactions(ID: string) {
+    const removedArray = transactions.filter(transaction => transaction.ID !== ID)
+    setTransactions(removedArray)
+  }
 
   async function loadTransactions() {
     try {
       const token = localStorage.getItem("@gofinanceTokenString") as string
       if (!token) {
-      // TODO: error handling is missing
+      // TODO: toastify here, error handling is missing
         console.log("There an error here should be toastified")
       }
 
@@ -69,7 +74,13 @@ export function TransactionProvider({ children }: TransactionProviderProps) {
   }, [])
 
   return (
-    <TransactionContext.Provider value={{transactions, update: updateTransactions}}>
+    <TransactionContext.Provider
+      value={{
+        transactions,
+        update: updateTransactions,
+        remove: removeTransactions
+      }}
+    >
       {children}
     </TransactionContext.Provider>
   )

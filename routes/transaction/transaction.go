@@ -1,6 +1,7 @@
 package transaction
 
 import (
+	"errors"
 	"fmt"
 
 	"github.com/KaioMarxDEV/gofinance/database"
@@ -8,8 +9,10 @@ import (
 	"github.com/KaioMarxDEV/gofinance/types"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
+// TEST: test to edge cases and bugs
 func All(c *fiber.Ctx) error {
 	var (
 		db           = database.DB
@@ -36,6 +39,7 @@ func All(c *fiber.Ctx) error {
 	})
 }
 
+// TEST: test to edge cases and bugs
 func Add(c *fiber.Ctx) error {
 	var (
 		db          = database.DB
@@ -69,5 +73,47 @@ func Add(c *fiber.Ctx) error {
 		Success: true,
 		Message: "Transaction created!",
 		Data:    transaction,
+	})
+}
+
+// TEST: test to edge cases and bugs
+func Delete(c *fiber.Ctx) error {
+	var (
+		db            = database.DB
+		transactionID = c.Params("id")
+		transaction   models.Transaction
+		err           error
+	)
+
+	err = db.Table("transactions").Where("ID = ?", transactionID).Find(&transaction).Error
+
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return c.Status(fiber.StatusBadRequest).JSON(types.ResponseHTTP{
+			Success: false,
+			Message: "cannot delete unexistent transaction",
+		})
+	}
+
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(types.ResponseHTTP{
+			Success: false,
+			Message: "There was an error in processing deletion",
+			Data:    nil,
+		})
+	}
+
+	err = db.Table("transactions").Where("ID = ?", transaction.ID).Delete(&transaction).Error
+
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(types.ResponseHTTP{
+			Success: false,
+			Message: "Failed to delete transaction",
+		})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(types.ResponseHTTP{
+		Success: true,
+		Message: "Deleted successfully!",
+		Data:    transaction.ID,
 	})
 }
