@@ -1,20 +1,20 @@
 import { ArrowDown, ArrowUp, Bank, CurrencyDollar } from "phosphor-react";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { TransactionContext } from "../../contexts/TransactionsContext";
-import { useSummary } from "../../hooks/useSummary";
 import { priceFormatter } from "../../utils/formatter";
 
 export function Banner() {
   const { transactions } = useContext(TransactionContext)
   let income =0, outcome=0, total=0
 
-  useEffect(() => {
-    const summary = useSummary(transactions);
-    income = summary.income
-    outcome = summary.outcome
-    total = summary.total
+  // FIXME: can't load vars from transaction without getting map does not exist error
+  // useEffect(() => {
+  //   const summary = useSummary(transactions);
+  //   income = summary.income
+  //   outcome = summary.outcome
+  //   total = summary.total
 
-  }, [])
+  // }, [])
 
   return (
     <div className="w-full">

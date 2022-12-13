@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { MagnifyingGlass } from "phosphor-react";
+import { CircleNotch, MagnifyingGlass } from "phosphor-react";
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -19,11 +19,12 @@ export function SearchBar() {
     transactions.length > 0 ? setDisableStatus(false) : setDisableStatus(true)
   }, [transactions])
 
-  const { register, handleSubmit } = useForm<SearchFormInputs>({
+  const { register, handleSubmit, formState: { isSubmitting } } = useForm<SearchFormInputs>({
     resolver: zodResolver(searchFormSchema)
   })
 
-  function handleSearchFormSubmit(data: SearchFormInputs) {
+  async function handleSearchFormSubmit(data: SearchFormInputs) {
+    // TODO: CALL API TO QUERY REGISTERED TRANSACTIONS HERE
     console.log(data)
   }
 
@@ -40,10 +41,15 @@ export function SearchBar() {
       />
       <div>
         <button
-          className="flex flex-row justify-between items-center w-full rounded-md px-8 py-4 bg-gray-900 hover:bg-gray-900/50 border border-gray-800 hover:border-green-500 transition-all ease-in delay-75 duration-200"
+          className="flex flex-row justify-between items-center w-full rounded-md px-8 py-4 bg-gray-900 disabled:opacity-40 hover:bg-gray-900/50 border border-gray-800 hover:border-green-500 transition-all ease-in delay-75 duration-200"
           type="submit"
+          disabled={isSubmitting}
         >
-          <MagnifyingGlass className="text-green-500" size={16} />
+          {
+            isSubmitting
+            ? <CircleNotch className="text-green-500 animate-spin" size={16} />
+            : <MagnifyingGlass className="text-green-500" size={16} />
+          }
           <span className="ml-2 text-base text-green-500">
             Search
           </span>
