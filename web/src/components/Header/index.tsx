@@ -18,7 +18,7 @@ interface ResponseDTO {
     description: string;
     number: number;
     type: 'income' | 'outcome'
-    createdAt: Date
+    createdAt: string
   };
 }
 
