@@ -119,9 +119,26 @@ func Delete(c *fiber.Ctx) error {
 }
 
 func Search(c *fiber.Ctx) error {
+	var (
+		db           = database.DB
+		query        = c.Query("q")
+		transactions []models.Transaction
+		err          error
+	)
+
+	err = db.Table("transactions").Where("description like ?", "%"+query+"%").Or("category like ?", "%"+query+"%").Find(&transactions).Error
+
+	if err != nil {
+		return c.Status(fiber.StatusOK).JSON(types.ResponseHTTP{
+			Success: false,
+			Message: "Failed to query on database",
+			Data:    nil,
+		})
+	}
+
 	return c.Status(fiber.StatusOK).JSON(types.ResponseHTTP{
 		Success: true,
 		Message: "Searched successfully",
-		Data:    true,
+		Data:    transactions,
 	})
 }
