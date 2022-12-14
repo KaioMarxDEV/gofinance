@@ -30,9 +30,6 @@ func main() {
 
 	app.Use(cors.New())
 
-	app.Static("/", "./web/build")
-	app.Static("*", "./web/build/index.html")
-
 	app.Use(recover.New())
 
 	routes.SetUpRoutes(app)
