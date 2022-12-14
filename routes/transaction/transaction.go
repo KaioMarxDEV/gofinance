@@ -59,8 +59,6 @@ func Add(c *fiber.Ctx) error {
 
 	transaction.UserID = uuid.MustParse(user_id)
 
-	fmt.Println(transaction)
-
 	if err = db.Table("transactions").Create(transaction).Error; err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(types.ResponseHTTP{
 			Success: false,
