@@ -12,18 +12,10 @@ import (
 )
 
 func Init() {
-	var (
-		connected = false
-		limit     = 5
-		count     = 0
-	)
+	connected := false
 
 	for connected != true {
-		if count == limit {
-			break
-		}
 		connected = database.ConnectDB()
-		count++
 	}
 }
 

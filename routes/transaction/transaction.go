@@ -17,10 +17,9 @@ func All(c *fiber.Ctx) error {
 	var (
 		db           = database.DB
 		transactions []models.Transaction
-		user_id      uuid.UUID
 		err          error
 	)
-	user_id = uuid.MustParse(fmt.Sprint(c.Locals("user_id")))
+	user_id := fmt.Sprint(c.Locals("user_id"))
 
 	err = db.Table("transactions").Where("user_id = ?", user_id).Find(&transactions).Error
 
