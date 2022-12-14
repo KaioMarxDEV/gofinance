@@ -1,7 +1,7 @@
-import axios from "axios";
 import { Binoculars, Trash } from "phosphor-react";
 import { useContext } from "react";
 import { TransactionContext } from "../../contexts/TransactionsContext";
+import { api } from "../../lib/api";
 import { dateFormatter, priceFormatter } from "../../utils/formatter";
 
 export function Transactions() {
@@ -10,7 +10,7 @@ export function Transactions() {
   async function handleRemoveTransaction(ID: string) {
     try {
       const token = localStorage.getItem("@gofinanceTokenString")
-      const response = await axios.delete(`http://localhost:3000/api/v1/transaction/delete/${ID}`, {
+      const response = await api.delete(`/transaction/delete/${ID}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }

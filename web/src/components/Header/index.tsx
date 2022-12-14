@@ -1,13 +1,13 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as RadioGroup from '@radix-ui/react-radio-group';
-import axios from "axios";
 import jwt_decode from 'jwt-decode';
 import { ArrowDown, ArrowUp, CurrencyDollarSimple, SpinnerGap, User, XCircle } from "phosphor-react";
 import { Fragment, useContext, useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import * as z from 'zod';
 import { TransactionContext } from "../../contexts/TransactionsContext";
+import { api } from "../../lib/api";
 
 interface ResponseDTO {
   success: boolean;
@@ -77,8 +77,8 @@ export function Header() {
   async function handleNewTransactionModal(inputData: newModalTransactionsInputs) {
     const token = localStorage.getItem("@gofinanceTokenString") as string
 
-    const response = await axios.post(
-      "http://localhost:3000/api/v1/transaction/add",
+    const response = await api.post(
+      "transaction/add",
       inputData,
       {
         headers: {

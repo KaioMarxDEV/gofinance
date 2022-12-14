@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { api } from "../lib/api";
 
 interface ResponseDTO {
   success: boolean;
@@ -17,7 +17,7 @@ export function Register() {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     try {
       e.preventDefault()
-      const response = await axios.post("http://localhost:3000/api/v1/user/add", {
+      const response = await api.post("/user/add", {
         username,
         password,
         email

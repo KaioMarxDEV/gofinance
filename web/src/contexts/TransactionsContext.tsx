@@ -1,5 +1,5 @@
-import axios from "axios";
 import { createContext, ReactNode, useEffect, useState } from "react";
+import { api } from "../lib/api";
 
 interface ResponseDTO {
   success: boolean;
@@ -52,8 +52,8 @@ export function TransactionProvider({ children }: TransactionProviderProps) {
         console.log("There an error here should be toastified")
       }
 
-      const response = await axios.get(
-        "http://localhost:3000/api/v1/transaction/all",
+      const response = await api.get(
+        "/transaction/all",
         {
           headers: {
             Authorization: `Bearer ${token}`

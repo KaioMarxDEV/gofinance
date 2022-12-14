@@ -1,6 +1,6 @@
-import axios from "axios";
 import { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { api } from "../lib/api";
 
 interface ResponseDTO {
   success: boolean;
@@ -16,7 +16,7 @@ export function Login() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault()
-      const response = await axios.post("http://localhost:3000/api/v1/login", {
+      const response = await api.post("/login", {
         email,
         password
       })
