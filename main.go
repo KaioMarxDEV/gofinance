@@ -11,8 +11,24 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/recover"
 )
 
+func Init() {
+	var (
+		connected = false
+		limit     = 5
+		count     = 0
+	)
+
+	for connected != true {
+		if count == limit {
+			break
+		}
+		connected = database.ConnectDB()
+		count++
+	}
+}
+
 func main() {
-	database.ConnectDB()
+	Init()
 
 	// server instace by gofiber with alternative JSON enconder/decoder
 	app := fiber.New(fiber.Config{
