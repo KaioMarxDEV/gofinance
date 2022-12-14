@@ -1,10 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import axios from 'axios';
 import { CircleNotch, MagnifyingGlass } from "phosphor-react";
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { Transaction, TransactionContext } from '../../contexts/TransactionsContext';
+import { api } from '../../lib/api';
 
 interface ResponseDTO {
   success: boolean;
@@ -34,7 +34,7 @@ export function SearchBar() {
     try {
       // TODO: Create axios folder lib to abstract baseURL instance
       const token = localStorage.getItem("@gofinanceTokenString")
-      const response = await axios.get(`http://localhost:3000/api/v1/transaction/search?q=${query}`, {
+      const response = await api.get(`/transaction/search?q=${query}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -62,7 +62,6 @@ export function SearchBar() {
         className="disabled:cursor-not-allowed flex-1 transition-all delay-100 duration-300 mr-4 bg-gray-800 p-4 rounded-md focus:shadow-lg focus:shadow-green-400 outline-none ring-0"
         placeholder="Search by transaction name if any..."
         {...register('query')}
-        disabled={disableStatus}
       />
       <div>
         <button

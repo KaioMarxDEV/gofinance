@@ -65,7 +65,7 @@ export function Transactions() {
             <span className="flex text-xl font-semibold mb-3">
               We're <p className="mx-2 text-green-500 animate-pulse">looking</p> for...
             </span>
-            <span className="text-lg font-semibold">But it seems you don't have any transactions</span>
+            <span className="text-lg font-semibold">But it seems you have 0 transactions matching</span>
           </div>
         </div>
       )}
