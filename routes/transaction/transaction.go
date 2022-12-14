@@ -85,7 +85,7 @@ func Delete(c *fiber.Ctx) error {
 		err           error
 	)
 
-	err = db.Table("transactions").Where("ID = ?", transactionID).Find(&transaction).Error
+	err = db.Table("transactions").Where("id = ?", transactionID).Find(&transaction).Error
 
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		return c.Status(fiber.StatusBadRequest).JSON(types.ResponseHTTP{
