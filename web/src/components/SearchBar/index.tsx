@@ -60,7 +60,7 @@ export function SearchBar() {
     >
       <input
         className="disabled:cursor-not-allowed flex-1 transition-all delay-100 duration-300 mr-4 bg-gray-800 p-4 rounded-md focus:shadow-lg focus:shadow-green-400 outline-none ring-0"
-        placeholder="Search by transaction name if any..."
+        placeholder="Search by transaction name or category name if any..."
         {...register('query')}
       />
       <div>
