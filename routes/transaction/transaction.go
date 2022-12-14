@@ -121,10 +121,14 @@ func Search(c *fiber.Ctx) error {
 		db           = database.DB
 		query        = c.Query("q")
 		transactions []models.Transaction
-		err          error
+
+		err error
 	)
 
-	err = db.Table("transactions").Where("description like ?", "%"+query+"%").Or("category like ?", "%"+query+"%").Find(&transactions).Error
+	// TODO: NEED TO ADD AUTH MIDDLEWARE TO ENSURE USER VALID
+	user_id := fmt.Sprint(c.Locals("user_id"))
+
+	err = db.Table("transactions").Where("description like ? AND user_id = ?", "%"+query+"%", user_id).Or("category like ?", "%"+query+"%").Find(&transactions).Error
 
 	if err != nil {
 		return c.Status(fiber.StatusOK).JSON(types.ResponseHTTP{

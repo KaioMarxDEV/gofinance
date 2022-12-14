@@ -22,5 +22,5 @@ func SetUpRoutes(app *fiber.App) {
 	transactionGroup.Post("/add", middlewares.Authenticate, transaction.Add)
 	transactionGroup.Get("/all", middlewares.Authenticate, transaction.All)
 	transactionGroup.Delete("/delete/:id", middlewares.Authenticate, transaction.Delete)
-	transactionGroup.Get("/search", transaction.Search)
+	transactionGroup.Get("/search", middlewares.Authenticate, transaction.Search)
 }

@@ -20,6 +20,7 @@ interface TransactionContextType {
   transactions: Transaction[];
   update: (data: Transaction) => {};
   remove: (ID: string) => {};
+  updateSearchedTransactions: (data: Transaction[]) => {}
 }
 interface TransactionProviderProps {
   children: ReactNode;
@@ -30,6 +31,10 @@ export const TransactionContext = createContext({} as TransactionContextType)
 
 export function TransactionProvider({ children }: TransactionProviderProps) {
   const [transactions, setTransactions] = useState<Transaction[]>([])
+
+  async function updateSearchedTransactions(data: Transaction[]) {
+    setTransactions(data)
+  }
 
   async function updateTransactions(data: Transaction) {
     setTransactions([...transactions, data])
@@ -78,7 +83,8 @@ export function TransactionProvider({ children }: TransactionProviderProps) {
       value={{
         transactions,
         update: updateTransactions,
-        remove: removeTransactions
+        remove: removeTransactions,
+        updateSearchedTransactions
       }}
     >
       {children}

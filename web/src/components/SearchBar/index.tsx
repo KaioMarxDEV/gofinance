@@ -1,9 +1,16 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import axios from 'axios';
 import { CircleNotch, MagnifyingGlass } from "phosphor-react";
 import { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import { TransactionContext } from '../../contexts/TransactionsContext';
+import { Transaction, TransactionContext } from '../../contexts/TransactionsContext';
+
+interface ResponseDTO {
+  success: boolean;
+  message: string;
+  data:    Transaction[];
+}
 
 const searchFormSchema = z.object({
   query: z.string(),
@@ -12,7 +19,7 @@ const searchFormSchema = z.object({
 type SearchFormInputs = z.infer<typeof searchFormSchema>
 
 export function SearchBar() {
-  const {transactions} = useContext(TransactionContext)
+  const {transactions, updateSearchedTransactions} = useContext(TransactionContext)
   const [disableStatus, setDisableStatus] = useState(false)
 
   useEffect(() => {
@@ -23,9 +30,27 @@ export function SearchBar() {
     resolver: zodResolver(searchFormSchema)
   })
 
-  async function handleSearchFormSubmit(data: SearchFormInputs) {
-    // TODO: CALL API TO QUERY REGISTERED TRANSACTIONS HERE
-    console.log(data)
+  async function handleSearchFormSubmit({ query }: SearchFormInputs) {
+    try {
+      // TODO: Create axios folder lib to abstract baseURL instance
+      const token = localStorage.getItem("@gofinanceTokenString")
+      const response = await axios.get(`http://localhost:3000/api/v1/transaction/search?q=${query}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+
+      const {success, message, data} = response.data as ResponseDTO
+
+      if (success === true) {
+        updateSearchedTransactions(data)
+      } else {
+        throw new Error(message)
+      }
+    } catch (error) {
+      // toastify
+      console.log(error)
+    }
   }
 
   return (
