@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Binoculars } from "phosphor-react";
+import { Binoculars, Trash } from "phosphor-react";
 import { useContext } from "react";
 import { TransactionContext } from "../../contexts/TransactionsContext";
 import { dateFormatter, priceFormatter } from "../../utils/formatter";
@@ -31,24 +31,31 @@ export function Transactions() {
   return (
     <div className="w-full max-w-6xl mt-8 mb-8 mx-auto px-5">
       {transactions.length > 0 ? (
-        <table className="w-full">
-          <tbody className="flex flex-col gap-3">
+        <div className="w-full">
+          <div className="flex flex-col gap-3">
             {transactions.map(transaction => (
-              <tr key={transaction.ID} className="bg-gray-800 flex items-center rounded-xl py-5 px-8">
-
-                <td className="w-1/2">{transaction.description}</td>
-                <div className="w-1/2 flex justify-between ">
-                  <td className={transaction.type === 'income' ? 'text-green-300': 'text-rose-200'}>
+              <div key={transaction.ID} className="bg-gray-800 flex items-center rounded-xl py-5 px-8">
+                <div className="w-1/2 flex items-center gap-4">
+                  <button
+                    className="p-2 rounded-3xl bg-gray-700 hover:bg-gray-800 border-2 hover:text-red-500 hover:border-red-500 border-gray-700 transition-all delay-75 duration-200 ease-linear"
+                    onClick={() => handleRemoveTransaction(transaction.ID)}
+                  >
+                    <Trash size={16}/>
+                  </button>
+                  {transaction.description}
+                </div>
+                <div className="w-1/2 flex justify-between">
+                  <div className={transaction.type === 'income' ? 'text-green-300': 'text-rose-200'}>
                     {transaction.type === 'outcome' && "-"}
                     {priceFormatter.format(transaction.number)}
-                  </td>
-                  <td>{transaction.category}</td>
-                  <td>{dateFormatter.format(new Date(transaction.createdAt))}</td>
+                  </div>
+                  <div className="font-bold">{transaction.category}</div>
+                  <div>{dateFormatter.format(new Date(transaction.createdAt))}</div>
                 </div>
-              </tr>
+              </div>
             ))}
-          </tbody>
-       </table>
+          </div>
+       </div>
       ) : (
         <div className="w-full">
           <div className="flex flex-col bg-gray-800 shadow-green-400 shadow-lg py-6 rounded-md items-center">
