@@ -29,7 +29,7 @@ export function Banner() {
     setIncome(summary.income)
     setOutcome(summary.outcome)
     setTotal(summary.total)
-  }, [])
+  }, [transactions])
 
   return (
     <div className="w-full">
