@@ -10,7 +10,7 @@
 
 ## Learn More
 
-This project tends to be a useful website for personal managment of finance data, inspired by a video from [Pirate King](https://www.youtube.com/watch?v=-arxoYcRWeM) but with a touch of my
+This project tends to be a useful API for personal managment of finance data, inspired by a video from [Pirate King](https://www.youtube.com/watch?v=-arxoYcRWeM) but with a touch of my
 technical and architectural believes, written in the best/beast GO language.
 
 Going against the community's standard framework (gin), I decided to implement a REST API using the safest and most performant framework of all popular web languages, and luckily that framework is written in Go (huff is not JavaScript)
@@ -31,8 +31,6 @@ ps: all below are ordered by time, oldest to newest, that means as the applicati
 
 ![secondConcept](https://user-images.githubusercontent.com/105358332/204090434-b74ca542-c390-4ee8-a198-e9b57958ca41.png)
 
-
-## Final Results
 
 ## Overview
 
